@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.leaflet-container {
+    width: 100%; 
+    height: 100vh;
+}
+
+body {
+    width: 100%; 
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    scroll-behavior: smooth;
+}
+
+.leaflet-control-attribution {
+    display: none;
+}
+
+.stop-sequence {
+    position: absolute; font-size: 13px; font-weight: bold; text-align: center; margin-top: 1px;
+}
+
+.stop_marker {
+    width: 12px;
+    border: 0;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    justify-content: center;
+    outline: none;
+    border-radius: 18px;
+    height: 12px;
+}
+
+.line-number{margin:0 auto;display:block;font-size:15px;font-weight:700}
+.vehicle-marker{background-color:#fff;box-shadow:1px 4px 7px #8a8a8a;position:relative;border-radius:15px;display:flex;outline:none;align-items:center;padding:0 6px!important;z-index:1000!important;}
+
+.bus{color:#006b47!important;border:2px solid #006b47!important;}
+.bus:hover{color:#fff!important;background-color:#006b47!important;border:2px solid #fff!important;}
+
+.tram{color:#007bff!important;border:2px solid #007bff!important;}
+.tram:hover{color:#fff!important;background-color:#007bff!important;border:2px solid #fff!important;}
+
+.blocked{cursor: not-allowed!important;background-color: #f5cccc!important;}
+.blocked:hover{background-color: #e65e5e!important;}
+
+.bg-bus{background-color:#006b47!important;color: #fff!important;}
+.bg-tram{background-color:#007bff!important;color: #fff!important;}
+
+.leaflet-marker-pane > * {
+  -webkit-transition: transform 0.3s linear;
+  -moz-transition: transform 0.3s linear;
+  -o-transition: transform 0.3 linear;
+  -ms-transition: transform 0.3s linear;
+  transition: transform 0.3s linear;
+}
