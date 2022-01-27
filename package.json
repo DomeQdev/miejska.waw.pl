@@ -10,13 +10,10 @@
     "@turf/turf": "^6.5.0",
     "axios": "^0.25.0",
     "leaflet": "^1.7.1",
-    "postcss-cli": "^9.1.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-leaflet": "^3.2.5",
-    "react-loading-skeleton": "^3.0.2",
     "react-modal-sheet": "^1.4.2",
-    "react-notifications": "^1.7.3",
     "react-scripts": "^5.0.0"
   },
   "scripts": {
