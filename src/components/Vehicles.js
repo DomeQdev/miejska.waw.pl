@@ -125,7 +125,7 @@ export default function App() {
                 localStorage.setItem("bounds", [map.getCenter().lat, map.getCenter().lng]);
                 localStorage.setItem("zoom", map.getZoom());
             }
-        })
+        });
         return null;
     }
 
