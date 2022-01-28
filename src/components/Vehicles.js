@@ -3,7 +3,8 @@ import { divIcon, latLng } from 'leaflet';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { useState, useEffect } from 'react';
 import { get } from 'axios';
-import Sheet from 'react-modal-sheet';
+import SlidingPanel from 'react-sliding-side-panel';
+import { NotificationManager } from 'react-notifications';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowUp, faCircle, faHandPaper } from '@fortawesome/free-solid-svg-icons'
 import { nearestPointOnLine, lineString, point } from '@turf/turf';
@@ -25,13 +26,16 @@ export default function App() {
         if(alrConnected) return;
         let wss = new WebSocket('wss://ws.domeqalt.repl.co');
         if(!wss) return alert("Could not connect to server");
+        NotificationManager.info('Próba połączenia z serwerem...');
         setAlrConnected(true);
         wss.addEventListener("open", () => {
             console.log("[WSS] Connected");
+            NotificationManager.success('Pojazdy powinny się pojawić do 20 sekund.', 'Udało się!');
             setAlrConnected(true);
         });
         wss.addEventListener("close", () => {
             console.log("[WSS] Disconnected");
+            NotificationManager.error('Połączenie z serwerem zostało przerwane.', 'Błąd!');
             setAlrConnected(false);
         });
         wss.addEventListener("message", ({ data }) => {
@@ -69,6 +73,7 @@ export default function App() {
                     <StopMarker vehicle={active} stop={stop} />
                 )
             }) : null}
+            {/*
             <Sheet
                 isOpen={active?.tab}
                 onClose={close}
@@ -82,6 +87,7 @@ export default function App() {
                     </Sheet.Content>
                 </Sheet.Container>
             </Sheet>
+            */}
         </>
     );
 

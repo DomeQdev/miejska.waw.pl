@@ -1,5 +1,7 @@
 import { MapContainer, TileLayer } from 'react-leaflet';
 import "leaflet/dist/leaflet.css";
+import 'react-notifications/lib/notifications.css';
+import { NotificationContainer } from 'react-notifications';
 import Vehicles from './components/Vehicles';
 
 export default function App() {
@@ -9,6 +11,7 @@ export default function App() {
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         <Vehicles />
       </MapContainer>
+      <NotificationContainer />
     </>
   );
 }
