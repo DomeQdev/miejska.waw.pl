@@ -1,7 +1,3 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 .leaflet-container {
     width: 100%; 
     height: 100vh;
@@ -41,16 +37,13 @@ body {
 .vehicle-marker{background-color:#fff;box-shadow:1px 4px 7px #8a8a8a;position:relative;border-radius:15px;display:flex;outline:none;align-items:center;padding:0 6px!important;z-index:1000!important;}
 
 .bus{color:#006b47!important;border:2px solid #006b47!important;}
-.bus:hover{color:#fff!important;background-color:#006b47!important;border:2px solid #fff!important;}
-
 .tram{color:#007bff!important;border:2px solid #007bff!important;}
-.tram:hover{color:#fff!important;background-color:#007bff!important;border:2px solid #fff!important;}
-
-.blocked{cursor: not-allowed!important;background-color: #f5cccc!important;}
-.blocked:hover{background-color: #e65e5e!important;}
 
 .bg-bus{background-color:#006b47!important;color: #fff!important;}
 .bg-tram{background-color:#007bff!important;color: #fff!important;}
+
+.fill-bus{fill:#006b47!important;}
+.fill-tram{fill:#007bff!important;}
 
 .leaflet-marker-pane > * {
   -webkit-transition: transform 0.3s linear;
