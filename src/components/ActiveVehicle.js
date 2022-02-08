@@ -5,9 +5,8 @@ import Sheet from 'react-modal-sheet';
 
 export default function ActiveVehicle({ vehicle, trip }) {
     const [ open, setOpen ] = useState(false);
-    useEffect(() => {
-        setTimeout(() => setOpen(true), 10);
-    }, []);
+    useEffect(() => setOpen(true), []);
+    
     return (
         <>
             <Polyline positions={trip[0].shapes} pathOptions={{ color: vehicle[0].type === "bus" ? "#006b47" : "#007bff" }} />
