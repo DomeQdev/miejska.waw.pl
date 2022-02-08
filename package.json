@@ -10,6 +10,7 @@
     "@mui/material": "^5.4.1",
     "@turf/nearest-point-on-line": "^6.5.0",
     "@turf/turf": "^6.5.0",
+    "framer-motion": "^6.2.4",
     "leaflet": "^1.7.1",
     "react": "^17.0.2",
     "react-device-detect": "^2.1.2",
