@@ -10,7 +10,7 @@ export default function StopMarker({ vehicle, stop }) {
             position={stop.location}
             icon={divIcon({
                 className: '',
-                html: renderToStaticMarkup(<button className={`stop_marker bg-${vehicle.type}`} style={{ zIndex: 10 }} title={`${stop.stop_name} ${stop.on_request ? "(Ż)" : ""}`}><span className={"stop-sequence"}>{stop.stop_sequence}</span></button>),
+                html: renderToStaticMarkup(<button className={`stop_marker bg-${vehicle.type}`} title={`${stop.stop_name} ${stop.on_request ? "(Ż)" : ""}`}><span className={"stop-sequence"}>{stop.stop_sequence}</span></button>),
                 iconSize: [12, 12],
                 iconAnchor: [12, 12],
                 popupAnchor: [0, -10],
@@ -18,7 +18,7 @@ export default function StopMarker({ vehicle, stop }) {
             zIndexOffset={100}
         >
             <Popup keepInView={false} autoPan={false}>
-                <div className="stop-info text-1xl">{stop.on_request ? <PanTool /> : null} <b>{stop.stop_name}</b></div>
+                <div className="stop-info text-1xl">{stop.on_request ? <PanTool style={{ width: "14px", height: "14px" }} /> : null} <b>{stop.stop_name}</b></div>
             </Popup>
         </Marker>
     )
