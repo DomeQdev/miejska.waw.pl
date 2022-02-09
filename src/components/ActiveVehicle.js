@@ -48,7 +48,7 @@ export default function ActiveVehicle({ vehicles }) {
             >
                 <Sheet.Container>
                     <Sheet.Header>
-                        s
+                        <span />
                     </Sheet.Header>
                     <Sheet.Content style={{ maxHeight: "400px" }}>
                         <Box
