@@ -46,7 +46,7 @@ export default function ActiveVehicle({ vehicles }) {
                 <Sheet.Container>
                     <Sheet.Header />
                     <Sheet.Content style={{ maxHeight: "400px" }}>
-                        <Button variant="outlined" style={{ fontWeight: "bold", color: "#000000", borderColor: vehicle?.type === "bus" ? "#006b47" : "#007bff", margin: "15px" }}>{vehicle?.type === "bus" ? <DirectionsBus style={{ height: "22px", width: "22px" }} /> : <Tram style={{ height: "22px", width: "22px" }} />} {trip?.route_id} {trip?.trip_headsign}</Button>
+                        <Button variant="outlined" style={{ color: "#000000", borderColor: vehicle?.type === "bus" ? "#006b47" : "#007bff", margin: "15px" }}>{vehicle?.type === "bus" ? <DirectionsBus style={{ height: "22px", width: "22px", fill: "#006b47" }} /> : <Tram style={{ height: "22px", width: "22px", fill: "#007bff" }} />} <b>{trip?.route_id}</b>&nbsp;{trip?.trip_headsign}</Button>
                         <List
                             sx={{
                                 width: '100%',
