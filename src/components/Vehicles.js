@@ -11,12 +11,12 @@ export default function Vehicles({ vehicles }) {
 
     return (
         <>
+            <Events />
             <Routes>
                 <Route path="/" element={<>
                     {vehicles.filter(vehicle => bounds.contains(latLng(vehicle.location)) && map.getZoom() > 15).map(vehicle => (
                         <VehicleMarker key={vehicle.trip} vehicle={vehicle} clickCallback={() => <Navigate to={`/${vehicle.tab}`} />} />
                     ))}
-                    <Events />
                 </>} />
                 <Route path="/track/:type/:bus" element={<ActiveVehicle vehicles={vehicles} />} />
             </Routes>
