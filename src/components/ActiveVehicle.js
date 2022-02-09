@@ -6,7 +6,7 @@ import StopMarker from './StopMarker';
 import { useParams, useNavigate } from "react-router-dom";
 import { PanTool, DirectionsBus, Tram } from '@mui/icons-material';
 import { nearestPointOnLine, lineString, point } from '@turf/turf';
-import NotificationManager from 'react-notifications/lib/NotificationManager';
+import { NotificationManager } from 'react-notifications';
 import Sheet from 'react-modal-sheet';
 
 export default function ActiveVehicle({ vehicles }) {
@@ -51,6 +51,8 @@ export default function ActiveVehicle({ vehicles }) {
                             sx={{
                                 width: '100%',
                                 maxWidth: '100%',
+                                overflow: "scroll",
+                                WebkitOverflowScrolling: "touch",
                                 bgcolor: 'background.paper',
                             }}
                         >
