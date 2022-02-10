@@ -61,7 +61,7 @@ export default function ActiveVehicle({ vehicles }) {
                             }}
                         >
                             <div>
-                                <Button variant="outlined" style={{ color: "#000000", borderColor: vehicle?.type === "bus" ? "#006b47" : "#007bff" }}>{vehicle?.type === "bus" ? <DirectionsBus style={{ height: "22px", width: "22px", fill: "#006b47" }} /> : <Tram style={{ height: "22px", width: "22px", fill: "#007bff" }} />} <b>{trip?.route_id}</b>&nbsp;{trip?.trip_headsign} {trip?.wheelchair_accessible ? <Accessible style={{ height: "22px", width: "22px" }} /> : <NotAccessible style={{ height: "22px", width: "22px" }} />}</Button>
+                                <Button variant="outlined" style={{ color: "#000000", borderColor: vehicle?.type === "bus" ? "#006b47" : "#007bff" }}>{vehicle?.type === "bus" ? <DirectionsBus style={{ height: "22px", width: "22px", fill: "#006b47" }} /> : <Tram style={{ height: "22px", width: "22px", fill: "#007bff" }} />} <b>{trip?.route_id}</b>&nbsp;{trip?.trip_headsign}&nbsp;{trip?.wheelchair_accessible ? <Accessible style={{ height: "22px", width: "22px" }} /> : <NotAccessible style={{ height: "22px", width: "22px" }} />}</Button>
                             </div>
                             <div></div>
                         </Box>
