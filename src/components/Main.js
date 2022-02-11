@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { NotificationManager } from 'react-notifications';
-import AddToHomescreen from 'react-add-to-homescreen';
 import { useMap } from 'react-leaflet';
 import Vehicles from './Vehicles';
 
@@ -25,7 +24,6 @@ export default function Main() {
     return (
         <>
             <Vehicles vehicles={vehicles} />
-            <AddToHomescreen onAddToHomescreenClick={() => {}} />
         </>
     );
 }
