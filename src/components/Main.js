@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react';
 import { NotificationManager } from 'react-notifications';
-import { useMap } from 'react-leaflet';
-import AddToHomeScreen from '@ideasio/add-to-homescreen-react';
 import Vehicles from './Vehicles';
 
 export default function Main() {
@@ -24,7 +22,6 @@ export default function Main() {
 
     return (
         <>
-            <AddToHomeScreen />
             <Vehicles vehicles={vehicles} />
         </>
     );
