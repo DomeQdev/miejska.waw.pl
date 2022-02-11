@@ -4,7 +4,6 @@ import { useMap } from 'react-leaflet';
 import Vehicles from './Vehicles';
 
 export default function Main() {
-    const map = useMap();
     const [ vehicles, setVehicles ] = useState([]);
     const [ connected, setConnected ] = useState(false);
 
