@@ -82,9 +82,9 @@ export default function ActiveVehicle({ vehicles }) {
                                     <Button sx={{ width: "100%", color: "black", textTransform: "none" }}>
                                         <ListItemText onClick={() => map.setView(stop.location, 16)} >
                                             <div style={{ float: "left" }}>
-                                                {stop.on_request ? <PanTool style={{ width: "14px", height: "14px" }} /> : null} {stop.stop_name}
+                                                {stop.on_request ? <PanTool style={{ width: "14px", height: "14px" }} /> : null} {stop.wheelchair_boarding ? null : <NotAccessible style={{ height: "18px", width: "18px", marginBottom: "-2px" }} />} {stop.stop_name}
                                             </div>
-                                            <div style={{ float: "right" }}>{stop.onLine - whereBus(vehicle.location) > 0 ? `${Math.floor((stop.onLine - whereBus(vehicle.location)) / 10)} metrów do przystanku` : `wg rozkładu był tu ${new Date(stop.departure_time).toUTCString()}`}</div>
+                                            <div style={{ float: "right" }}>{stop.onLine - whereBus(vehicle.location) > -15 ? `${Math.floor((stop.onLine - whereBus(vehicle.location)) / 10)} metrów do przystanku` : `wg rozkładu był tu ${new Date(stop.departure_time).toUTCString()}`}</div>
                                         </ListItemText>
                                     </Button>
                                 </ListItem>
