@@ -1,33 +1,33 @@
 {
     "short_name": "Lokalizacja WTP",
     "name": "Lokalizacja WTP",
-    "description": "Najlepsze strona do lokalizacji pojazdów Warszawskiego Transportu Publicznego",
+    "description": "Najlepsza strona do lokalizacji pojazdów Warszawskiego Transportu Publicznego z możliwością filtrowania pojazdów i zmiany wyglądu mapy.",
     "categories": ["navigation", "travel", "utilities"],
     "icons": [
       {
-        "src": "/logo192.png",
+        "src": "/pwa/logo192.png",
         "sizes": "192x192",
         "type": "image/png"
       },
       {
-        "src": "/logo512.png",
+        "src": "/pwa/logo512.png",
         "sizes": "512x512",
         "type": "image/png"
       }
     ],
     "screenshots": [
       {
-        "src": "/ss1.png",
+        "src": "/pwa/ss1.png",
         "sizes": "390x844",
         "type": "image/png"
       },
       {
-        "src": "/ss1.png",
+        "src": "/pwa/ss1.png",
         "sizes": "390x844",
         "type": "image/png"
       },
       {
-        "src": "/ss1.png",
+        "src": "/pwa/ss1.png",
         "sizes": "390x844",
         "type": "image/jpeg"
       }
@@ -40,7 +40,7 @@
         "url": "/",
         "icons": [
           {
-            "src": "/logo192.png",
+            "src": "/pwa/logo192.png",
             "sizes": "192x192"
           }
         ]
@@ -52,7 +52,7 @@
         "url": "/filter",
         "icons": [
           {
-            "src": "/logo192.png",
+            "src": "/pwa/logo192.png",
             "sizes": "192x192"
           }
         ]
@@ -64,7 +64,7 @@
         "url": "/settings",
         "icons": [
           {
-            "src": "/logo192.png",
+            "src": "/pwa/logo192.png",
             "sizes": "192x192"
           }
         ]
@@ -73,7 +73,7 @@
     "start_url": "/",
     "display": "standalone",
     "theme_color": "#fb0101",
-    "background_color": "#fb0101",
+    "background_color": "#E64E4E",
     "orientation": "portrait",
     "gcm_sender_id": "477862441151"
   }
