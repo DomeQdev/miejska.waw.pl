@@ -1,15 +1,79 @@
 {
-    "short_name": "React App",
-    "name": "Create React App Sample",
+    "short_name": "Lokalizacja WTP",
+    "name": "Lokalizacja WTP",
+    "description": "Najlepsze strona do lokalizacji pojazdów Warszawskiego Transportu Publicznego",
+    "categories": ["navigation", "travel", "utilities"],
     "icons": [
       {
-        "src": "logo.png",
-        "type": "image/png",
-        "sizes": "500x500"
+        "src": "/logo192.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      },
+      {
+        "src": "/logo512.png",
+        "sizes": "512x512",
+        "type": "image/png"
       }
     ],
-    "start_url": ".",
+    "screenshots": [
+      {
+        "src": "/ss1.png",
+        "sizes": "390x844",
+        "type": "image/png"
+      },
+      {
+        "src": "/ss1.png",
+        "sizes": "390x844",
+        "type": "image/png"
+      },
+      {
+        "src": "/ss1.png",
+        "sizes": "390x844",
+        "type": "image/jpeg"
+      }
+    ],
+    "shortcuts": [
+      {
+        "name": "Wyświetl pojazdy",
+        "short_name": "Pojazdy",
+        "description": "Otwórz mapę pojazdów",
+        "url": "/",
+        "icons": [
+          {
+            "src": "/logo192.png",
+            "sizes": "192x192"
+          }
+        ]
+      },
+      {
+        "name": "Filtrowanie pojazdów",
+        "short_name": "Filtrowanie",
+        "description": "Filtruj pojazdy",
+        "url": "/filter",
+        "icons": [
+          {
+            "src": "/logo192.png",
+            "sizes": "192x192"
+          }
+        ]
+      },
+      {
+        "name": "Ustawienia",
+        "short_name": "Ustawienia",
+        "description": "Otwórz ustawienia",
+        "url": "/settings",
+        "icons": [
+          {
+            "src": "/logo192.png",
+            "sizes": "192x192"
+          }
+        ]
+      }
+    ],
+    "start_url": "/",
     "display": "standalone",
-    "theme_color": "#000000",
-    "background_color": "#ffffff"
+    "theme_color": "#fb0101",
+    "background_color": "#fb0101",
+    "orientation": "portrait",
+    "gcm_sender_id": "477862441151"
   }
