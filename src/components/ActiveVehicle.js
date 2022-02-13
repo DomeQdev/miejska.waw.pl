@@ -61,7 +61,7 @@ export default function ActiveVehicle({ vehicles }) {
                             }}
                         >
                             <div>
-                                <Button variant="outlined" style={{ color: "#000000", borderColor: vehicle?.type === "bus" ? "#006b47" : "#007bff" }} onClick={() => map.setView(vehicle.location)}>{vehicle?.type === "bus" ? <DirectionsBus style={{ height: "22px", width: "22px", fill: "#006b47" }} /> : <Tram style={{ height: "22px", width: "22px", fill: "#007bff" }} />} <b>{trip?.route_id}</b>&nbsp;{trip?.trip_headsign}&nbsp;{trip?.wheelchair_accessible ? <Accessible style={{ height: "22px", width: "22px" }} /> : <NotAccessible style={{ height: "22px", width: "22px" }} />}</Button>
+                                <Button variant="outlined" style={{ color: "#000000", borderColor: vehicle?.type === "bus" ? "#006b47" : "#007bff" }} onClick={() => map.setView(vehicle.location)}>{vehicle?.type === "bus" ? <DirectionsBus style={{ height: "22px", width: "22px", fill: "#006b47" }} /> : <Tram style={{ height: "22px", width: "22px", fill: "#007bff" }} />}&nbsp;<b>{trip?.route_id}</b>&nbsp;{trip?.trip_headsign}&nbsp;{trip?.wheelchair_accessible ? <Accessible style={{ height: "22px", width: "22px" }} /> : <NotAccessible style={{ height: "22px", width: "22px" }} />}</Button>
                             </div>
                             <div></div>
                         </Box>
@@ -81,10 +81,10 @@ export default function ActiveVehicle({ vehicles }) {
                                         </Avatar>
                                     </ListItemAvatar>
                                     <Button
-                                        sx={{ width: "100%", color: stop.onLine - whereBus(vehicle.location) > -20 ? "black" : "gray", textTransform: "none", padding: "0" }}
+                                        sx={{ width: "100%", color: stop.onLine - whereBus(vehicle.location) > -25 ? "black" : "gray", textTransform: "none", padding: "0" }}
                                         ref={(ref) => {
                                             stop.ref = ref;
-                                            if(!scrolled && trip.stops.filter(st => st.onLine - whereBus(vehicle.location) > -20)[0]?.stop_id === stop.stop_id) {
+                                            if(!scrolled && trip.stops.filter(st => st.onLine - whereBus(vehicle.location) > -25)[0]?.stop_id === stop.stop_id) {
                                                 ref?.scrollIntoView({ behavior: 'smooth', block: 'start' });
                                                 setScrolled(true);
                                             }
@@ -95,7 +95,7 @@ export default function ActiveVehicle({ vehicles }) {
                                                 {stop.on_request ? <PanTool style={{ width: "14px", height: "14px" }} /> : null} {stop.wheelchair_boarding ? null : <NotAccessible style={{ height: "18px", width: "18px", marginBottom: "-2px" }} />} {stop.stop_name}
                                             </div>
                                             <div style={{ float: "right" }}>
-                                                {stop.onLine - whereBus(vehicle.location) > -20 && stop.onLine - whereBus(vehicle.location) <= 10 ? "serving" : (stop.onLine - whereBus(vehicle.location) > 10) ? `${Math.floor((stop.onLine - whereBus(vehicle.location)) / 10)} metrów` : null}
+                                                {stop.onLine - whereBus(vehicle.location) > -25 && (stop.stop_sequence === 1 ? `Odjazd ${minutesUntil(stop.departure_time)}` : (stop.onLine - whereBus(vehicle.location) <= 10 ? "serving" : (stop.onLine - whereBus(vehicle.location) > 10) ? `${Math.floor((stop.onLine - whereBus(vehicle.location)) / 10)} metrów` : null))}
                                             </div>
                                         </ListItemText>
                                     </Button>
@@ -112,4 +112,20 @@ export default function ActiveVehicle({ vehicles }) {
         if (typeof location !== "object") return 0;
         return nearestPointOnLine(lineString(trip?.shapes), point(location), { units: 'meters' }).properties.location;
     }
+}
+
+function minutesUntil(timestamp) {
+    var now = new Date();
+    var then = new Date(convertTimestampToUTC(timestamp));
+    var diff = then.getTime() - now.getTime();
+    var minutes = Math.floor(diff / 1000 / 60);
+    if(minutes === 0) return "";
+    if(minutes < 0) return `opóźniony o ${Math.abs(minutes)} min`;
+    return `za ${minutes} min`;
+}
+
+function convertTimestampToUTC(timestamp) {
+    var date = new Date(timestamp);
+    var utc = new Date(date.getTime() + date.getTimezoneOffset() * 60000);
+    return utc;
 }
