@@ -90,12 +90,15 @@ export default function ActiveVehicle({ vehicles }) {
                                             }
                                         }}
                                     >
-                                        <ListItemText onClick={() => map.setView(stop.location, 16)} >
+                                        <ListItemText onClick={() => {
+                                            map.setView(stop.location, 16);
+                                            stop.ref.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                                        }}>
                                             <div style={{ float: "left" }}>
                                                 {stop.on_request ? <PanTool style={{ width: "14px", height: "14px" }} /> : null} {stop.wheelchair_boarding ? null : <NotAccessible style={{ height: "18px", width: "18px", marginBottom: "-2px" }} />} {stop.stop_name}
                                             </div>
                                             <div style={{ float: "right" }}>
-                                                {stop.onLine - whereBus(vehicle.location) > -25 && (stop.stop_sequence === 1 ? `Odjazd ${minutesUntil(stop.departure_time)}` : (stop.onLine - whereBus(vehicle.location) <= 10 ? "serving" : (stop.onLine - whereBus(vehicle.location) > 10) ? `${Math.floor((stop.onLine - whereBus(vehicle.location)) / 10)} metrów` : null))}
+                                                {stop.onLine - whereBus(vehicle.location) > -25 && stop.stop_sequence === 1 ? `Odjazd ${minutesUntil(stop.departure_time)}` : (stop.onLine - whereBus(vehicle.location) <= 10 ? "serving" : (stop.onLine - whereBus(vehicle.location) > 10) ? `${Math.floor((stop.onLine - whereBus(vehicle.location)) / 10)} metrów` : null)}
                                             </div>
                                         </ListItemText>
                                     </Button>
