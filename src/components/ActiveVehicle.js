@@ -13,6 +13,7 @@ export default function ActiveVehicle({ vehicles }) {
     const map = useMap();
     const params = useParams();
     const navigate = useNavigate();
+    const [scrolled, setScrolled] = useState(false);
     const [vehicle, setVehicle] = useState(null);
     const [trip, setTrip] = useState(null);
 
@@ -31,7 +32,7 @@ export default function ActiveVehicle({ vehicles }) {
             });
             setTrip(res);
             map.setView(v.location, 17);
-        })
+        });
     }, [vehicles]);
 
     return (
@@ -79,12 +80,12 @@ export default function ActiveVehicle({ vehicles }) {
                                             <span style={{ fontSize: "15px" }}>{stop.stop_sequence}</span>
                                         </Avatar>
                                     </ListItemAvatar>
-                                    <Button sx={{ width: "100%", color: "black", textTransform: "none" }}>
+                                    <Button sx={{ width: "100%", color: stop.onLine - whereBus(vehicle.location) > -20 ? "black" : "gray", textTransform: "none", padding: "0" }} ref={(ref) => !scrolled && trip.stops.filter(st => st.onLine - whereBus(vehicle.location) > -20)[0]?.stop_id === stop.stop_id ? ref?.scrollIntoView() && setScrolled(true) : null}>
                                         <ListItemText onClick={() => map.setView(stop.location, 16)} >
                                             <div style={{ float: "left" }}>
                                                 {stop.on_request ? <PanTool style={{ width: "14px", height: "14px" }} /> : null} {stop.wheelchair_boarding ? null : <NotAccessible style={{ height: "18px", width: "18px", marginBottom: "-2px" }} />} {stop.stop_name}
                                             </div>
-                                            <div style={{ float: "right" }}>{stop.onLine - whereBus(vehicle.location) > -15 ? `${Math.floor((stop.onLine - whereBus(vehicle.location)) / 10)} metrów do przystanku` : `wg rozkładu był tu ${new Date(stop.departure_time).toUTCString()}`}</div>
+                                            <div style={{ float: "right" }}>{stop.onLine - whereBus(vehicle.location) > -20 && stop.onLine - whereBus(vehicle.location) <= 10 ? "serving" : (stop.onLine - whereBus(vehicle.location) > 10) ? `${Math.floor((stop.onLine - whereBus(vehicle.location)) / 10)} metrów do przystanku` : null}</div>
                                         </ListItemText>
                                     </Button>
                                 </ListItem>
