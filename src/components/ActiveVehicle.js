@@ -39,7 +39,7 @@ export default function ActiveVehicle({ vehicles }) {
         <>
             {!vehicle || <VehicleMarker vehicle={vehicle} clickCallback={() => console.log("press")} />}
             {!trip || <Polyline positions={trip?.shapes} pathOptions={{ color: vehicle?.type === "bus" ? "#006b47" : "#007bff", weight: 5 }} />}
-            {!trip || trip?.stops.map(stop => <StopMarker key={stop.stop_id} vehicle={vehicle} stop={stop} clickCallback={() => stop.ref.scrollIntoView()} />)}
+            {!trip || trip?.stops.map(stop => <StopMarker key={stop.stop_id} vehicle={vehicle} stop={stop} clickCallback={() => stop.ref.scrollIntoView({ behavior: 'smooth', block: 'start' })} />)}
             <Sheet
                 isOpen={trip}
                 onClose={() => navigate("/")}
@@ -85,7 +85,7 @@ export default function ActiveVehicle({ vehicles }) {
                                         ref={(ref) => {
                                             stop.ref = ref;
                                             if(!scrolled && trip.stops.filter(st => st.onLine - whereBus(vehicle.location) > -20)[0]?.stop_id === stop.stop_id) {
-                                                ref?.scrollIntoView();
+                                                ref?.scrollIntoView({ behavior: 'smooth', block: 'start' });
                                                 setScrolled(true);
                                             }
                                         }}

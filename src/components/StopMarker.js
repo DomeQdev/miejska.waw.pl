@@ -8,7 +8,7 @@ export default function StopMarker({ vehicle, stop, clickCallback }) {
             key={stop.stop_id}
             position={stop.location}
             eventHandlers={{
-                click: () => clickCallback(stop)
+                click: () => clickCallback()
             }}
             icon={divIcon({
                 className: '',
