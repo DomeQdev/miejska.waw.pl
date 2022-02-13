@@ -25,7 +25,7 @@ export default function Vehicles({ vehicles }) {
 
     function Events() {
         useMapEvents({
-            move: () => {
+            moveend: () => {
                 setBounds(map.getBounds());
                 localStorage.setItem("bounds", [map.getCenter().lat, map.getCenter().lng]);
                 localStorage.setItem("zoom", map.getZoom());

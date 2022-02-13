@@ -80,7 +80,7 @@ export default function ActiveVehicle({ vehicles }) {
                                             <span style={{ fontSize: "15px" }}>{stop.stop_sequence}</span>
                                         </Avatar>
                                     </ListItemAvatar>
-                                    <Button sx={{ width: "100%", color: stop.onLine - whereBus(vehicle.location) > -20 ? "black" : "gray", textTransform: "none", padding: "0" }} ref={(ref) => !scrolled && trip.stops.filter(st => st.onLine - whereBus(vehicle.location) > -20)[0]?.stop_id === stop.stop_id ? ref?.scrollIntoView() && setScrolled(true) : null}>
+                                    <Button sx={{ width: "100%", color: stop.onLine - whereBus(vehicle.location) > -20 ? "black" : "gray", textTransform: "none", padding: "0" }} ref={(ref) => !scrolled && trip.stops.filter(st => st.onLine - whereBus(vehicle.location) > -20)[0]?.stop_id === stop.stop_id ? scrollInto(ref) : null}>
                                         <ListItemText onClick={() => map.setView(stop.location, 16)} >
                                             <div style={{ float: "left" }}>
                                                 {stop.on_request ? <PanTool style={{ width: "14px", height: "14px" }} /> : null} {stop.wheelchair_boarding ? null : <NotAccessible style={{ height: "18px", width: "18px", marginBottom: "-2px" }} />} {stop.stop_name}
@@ -100,5 +100,10 @@ export default function ActiveVehicle({ vehicles }) {
     function whereBus(location) {
         if(typeof location !== "object") return 0;
         return nearestPointOnLine(lineString(trip?.shapes), point(location), { units: 'meters' }).properties.location;
+    }
+
+    function scrollInto(ref) {
+        ref?.scrollIntoView();
+        setScrolled(true);
     }
 }
