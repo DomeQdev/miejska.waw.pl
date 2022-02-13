@@ -66,7 +66,7 @@ export default function ActiveVehicle({ vehicles }) {
                                     style={{ color: "#000000", borderColor: vehicle?.type === "bus" ? "#006b47" : "#007bff" }} 
                                     onClick={() => map.setView(vehicle.location)}
                                 >
-                                    {vehicle?.type === "bus" ? <DirectionsBus style={{ height: "22px", width: "22px", fill: "#006b47" }} /> : <Tram style={{ height: "22px", width: "22px", fill: "#007bff" }} />}&nbsp;<b>{trip?.route_id}</b>&nbsp;{trip?.stops.filter(st => st.onLine - whereBus(vehicle.location) > -50)[0].stop_sequence === 1 ? <AutoChange timeout={3500} text={[trip?.trip_headsign, `Odjazd ${minutesUntil(trip?.stops[0]?.departure_time)}`]} /> : trip?.trip_headsign}&nbsp;{trip?.wheelchair_accessible ? <Accessible style={{ height: "22px", width: "22px" }} /> : <NotAccessible style={{ height: "22px", width: "22px" }} />}
+                                    {vehicle?.type === "bus" ? <DirectionsBus style={{ height: "22px", width: "22px", fill: "#006b47" }} /> : <Tram style={{ height: "22px", width: "22px", fill: "#007bff" }} />}&nbsp;<b>{trip?.route_id}</b>&nbsp;{trip?.stops.filter(st => st.onLine - whereBus(vehicle.location) > -50)[0].stop_sequence === 1 ? <AutoChange timeout={3500} text={[trip?.trip_headsign, new Date(trip?.stops[0]?.departure_time)]} /> : trip?.trip_headsign}&nbsp;{trip?.wheelchair_accessible ? <Accessible style={{ height: "22px", width: "22px" }} /> : <NotAccessible style={{ height: "22px", width: "22px" }} />}
                                 </Button>
                             </div>
                         </Box>
@@ -120,19 +120,4 @@ export default function ActiveVehicle({ vehicles }) {
         if (typeof location !== "object") return 0;
         return nearestPointOnLine(lineString(trip?.shapes), point(location), { units: 'meters' }).properties.location;
     }
-}
-
-function minutesUntil(timestamp) {
-    var now = new Date();
-    var then = convertTimestampToUTC(timestamp);
-    var diff = then.getTime() - now.getTime();
-    var minutes = Math.floor(diff / 1000 / 60);
-    if (minutes === 0) return "";
-    if (minutes < 0) return `opóźniony o ${Math.abs(minutes)} min`;
-    return `za ${minutes} min`;
-}
-
-function convertTimestampToUTC(timestamp) {
-    let date = new Date(timestamp);
-    return new Date(date.getTime() + date.getTimezoneOffset() * 60000);
 }

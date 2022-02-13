@@ -22,8 +22,23 @@ class Home extends Component {
   render() {
     let textThatChanges = this.text[this.state.textIdx % this.text.length];
 
-    return (textThatChanges)
+    return (typeof textThatChanges === "object" ? `Odjazd ${minutesUntil(textThatChanges)}` : textThatChanges)
   }
 }
 
 export default Home;
+
+function minutesUntil(timestamp) {
+  var now = new Date();
+  var then = convertTimestampToUTC(timestamp);
+  var diff = then.getTime() - now.getTime();
+  var minutes = Math.floor(diff / 1000 / 60);
+  if (minutes === 0) return "";
+  if (minutes < 0) return `opóźniony o ${Math.abs(minutes)} min`;
+  return `za ${minutes} min`;
+}
+
+function convertTimestampToUTC(timestamp) {
+  let date = new Date(timestamp);
+  return new Date(date.getTime() + date.getTimezoneOffset() * 60000);
+}
