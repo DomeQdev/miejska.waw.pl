@@ -13,7 +13,6 @@ export default function ActiveVehicle({ vehicles }) {
     const map = useMap();
     const params = useParams();
     const navigate = useNavigate();
-    const [tab, setTab] = useState(0);
     const [vehicle, setVehicle] = useState(null);
     const [trip, setTrip] = useState(null);
 
@@ -38,7 +37,7 @@ export default function ActiveVehicle({ vehicles }) {
     return (
         <>
             {!vehicle || <VehicleMarker vehicle={vehicle} clickCallback={() => console.log("press")} />}
-            {!trip || <Polyline positions={trip?.shapes} pathOptions={{ color: vehicle?.type === "bus" ? "#006b47" : "#007bff" }} />}
+            {!trip || <Polyline positions={trip?.shapes} pathOptions={{ color: vehicle?.type === "bus" ? "#006b47" : "#007bff", weight: 5 }} />}
             {!trip || trip?.stops.map(stop => <StopMarker key={stop.stop_id} vehicle={vehicle} stop={stop} />)}
             <Sheet
                 isOpen={trip}
@@ -61,7 +60,7 @@ export default function ActiveVehicle({ vehicles }) {
                             }}
                         >
                             <div>
-                                <Button variant="outlined" style={{ color: "#000000", borderColor: vehicle?.type === "bus" ? "#006b47" : "#007bff" }}>{vehicle?.type === "bus" ? <DirectionsBus style={{ height: "22px", width: "22px", fill: "#006b47" }} /> : <Tram style={{ height: "22px", width: "22px", fill: "#007bff" }} />} <b>{trip?.route_id}</b>&nbsp;{trip?.trip_headsign}&nbsp;{trip?.wheelchair_accessible ? <Accessible style={{ height: "22px", width: "22px" }} /> : <NotAccessible style={{ height: "22px", width: "22px" }} />}</Button>
+                                <Button variant="outlined" style={{ color: "#000000", borderColor: vehicle?.type === "bus" ? "#006b47" : "#007bff" }} onClick={() => map.setView(vehicle.location)}>{vehicle?.type === "bus" ? <DirectionsBus style={{ height: "22px", width: "22px", fill: "#006b47" }} /> : <Tram style={{ height: "22px", width: "22px", fill: "#007bff" }} />} <b>{trip?.route_id}</b>&nbsp;{trip?.trip_headsign}&nbsp;{trip?.wheelchair_accessible ? <Accessible style={{ height: "22px", width: "22px" }} /> : <NotAccessible style={{ height: "22px", width: "22px" }} />}</Button>
                             </div>
                             <div></div>
                         </Box>
@@ -70,7 +69,7 @@ export default function ActiveVehicle({ vehicles }) {
                                 overflow: "auto",
                                 WebkitOverflowScrolling: "touch",
                                 bgcolor: 'background.paper',
-                                maxHeight: "285px",
+                                maxHeight: "315px",
                             }}
                         >
                             {trip?.stops.map(stop => (
@@ -80,9 +79,14 @@ export default function ActiveVehicle({ vehicles }) {
                                             <span style={{ fontSize: "15px" }}>{stop.stop_sequence}</span>
                                         </Avatar>
                                     </ListItemAvatar>
-                                    <ListItemText>
-                                        {stop.on_request ? <PanTool style={{ width: "14px", height: "14px" }} /> : null} {stop.stop_name}
-                                    </ListItemText>
+                                    <Button sx={{ width: "100%", color: "black", textTransform: "none" }}>
+                                        <ListItemText onClick={() => map.setView(stop.location, 16)} >
+                                            <div style={{ float: "left" }}>
+                                                {stop.on_request ? <PanTool style={{ width: "14px", height: "14px" }} /> : null} {stop.stop_name}
+                                            </div>
+                                            <div style={{ float: "right" }}>{stop.onLine - whereBus(vehicle.location) > 0 ? `${Math.floor((stop.onLine - whereBus(vehicle.location)) / 10)} metrów do przystanku` : `wg rozkładu był tu ${new Date(stop.departure_time).toUTCString()}`}</div>
+                                        </ListItemText>
+                                    </Button>
                                 </ListItem>
                             )).reduce((prev, curr) => [prev, <Divider variant="inset" component="li" key={Math.random()} />, curr])}
                         </List>
@@ -91,4 +95,9 @@ export default function ActiveVehicle({ vehicles }) {
             </Sheet>
         </>
     );
+
+    function whereBus(location) {
+        if(typeof location !== "object") return 0;
+        return nearestPointOnLine(lineString(trip?.shapes), point(location), { units: 'meters' }).properties.location;
+    }
 }
