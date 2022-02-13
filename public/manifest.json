@@ -1,7 +1,7 @@
 {
     "short_name": "Lokalizacja WTP",
     "name": "Lokalizacja WTP",
-    "description": "Najlepsza strona do lokalizacji pojazdów Warszawskiego Transportu Publicznego z możliwością filtrowania pojazdów i zmiany wyglądu mapy.",
+    "description": "Lokalizacja pojazdów Warszawskiego Transportu Publicznego",
     "categories": ["navigation", "travel", "utilities"],
     "icons": [
       {
