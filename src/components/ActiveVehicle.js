@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Button, List, ListItem, ListItemText, ListItemAvatar, Avatar, Divider, Box } from '@mui/material';
 import { Polyline, useMap } from 'react-leaflet';
+import AutoChange from './AutoChange';
 import VehicleMarker from './VehicleMarker';
 import StopMarker from './StopMarker';
 import { useParams, useNavigate } from "react-router-dom";
@@ -56,14 +57,18 @@ export default function ActiveVehicle({ vehicles }) {
                                 display: 'flex',
                                 justifyContent: 'space-between',
                                 p: 1,
-                                m: 1,
-                                bgcolor: 'background.paper',
+                                m: 1
                             }}
                         >
                             <div>
-                                <Button variant="outlined" style={{ color: "#000000", borderColor: vehicle?.type === "bus" ? "#006b47" : "#007bff" }} onClick={() => map.setView(vehicle.location)}>{vehicle?.type === "bus" ? <DirectionsBus style={{ height: "22px", width: "22px", fill: "#006b47" }} /> : <Tram style={{ height: "22px", width: "22px", fill: "#007bff" }} />}&nbsp;<b>{trip?.route_id}</b>&nbsp;{trip?.trip_headsign}&nbsp;{trip?.wheelchair_accessible ? <Accessible style={{ height: "22px", width: "22px" }} /> : <NotAccessible style={{ height: "22px", width: "22px" }} />}</Button>
+                                <Button 
+                                    variant="outlined" 
+                                    style={{ color: "#000000", borderColor: vehicle?.type === "bus" ? "#006b47" : "#007bff" }} 
+                                    onClick={() => map.setView(vehicle.location)}
+                                >
+                                    {vehicle?.type === "bus" ? <DirectionsBus style={{ height: "22px", width: "22px", fill: "#006b47" }} /> : <Tram style={{ height: "22px", width: "22px", fill: "#007bff" }} />}&nbsp;<b>{trip?.route_id}</b>&nbsp;{trip?.stops.filter(st => st.onLine - whereBus(vehicle.location) > -50)[0].stop_sequence === 1 ? <AutoChange timeout={3500} text={[trip?.trip_headsign, `Odjazd ${minutesUntil(trip?.stops[0]?.departure_time)}`]} /> : trip?.trip_headsign}&nbsp;{trip?.wheelchair_accessible ? <Accessible style={{ height: "22px", width: "22px" }} /> : <NotAccessible style={{ height: "22px", width: "22px" }} />}
+                                </Button>
                             </div>
-                            <div></div>
                         </Box>
                         <List
                             sx={{
@@ -81,10 +86,10 @@ export default function ActiveVehicle({ vehicles }) {
                                         </Avatar>
                                     </ListItemAvatar>
                                     <Button
-                                        sx={{ width: "100%", color: stop.onLine - whereBus(vehicle.location) > -30 ? "black" : "gray", textTransform: "none", padding: "0" }}
+                                        sx={{ width: "100%", color: stop.onLine - whereBus(vehicle.location) > -50 ? "black" : "gray", textTransform: "none", padding: "0" }}
                                         ref={(ref) => {
                                             stop.ref = ref;
-                                            if (!scrolled && trip.stops.filter(st => st.onLine - whereBus(vehicle.location) > -30)[0]?.stop_id === stop.stop_id) {
+                                            if (!scrolled && trip.stops.filter(st => st.onLine - whereBus(vehicle.location) > -50)[0]?.stop_id === stop.stop_id) {
                                                 ref?.scrollIntoView({ behavior: 'smooth', block: 'start' });
                                                 setScrolled(true);
                                             }
@@ -98,7 +103,7 @@ export default function ActiveVehicle({ vehicles }) {
                                                 {stop.on_request ? <PanTool style={{ width: "14px", height: "14px" }} /> : null} {stop.wheelchair_boarding ? null : <NotAccessible style={{ height: "18px", width: "18px", marginBottom: "-2px" }} />} {stop.stop_name}
                                             </div>
                                             <div style={{ float: "right" }}>
-                                                {stop.onLine - whereBus(vehicle.location) > -30 && stop.stop_sequence === 1 ? `Odjazd ${minutesUntil(stop.departure_time)}` : (stop.onLine - whereBus(vehicle.location) <= 10 ? "serving" : (stop.onLine - whereBus(vehicle.location) > 10) ? `${Math.floor((stop.onLine - whereBus(vehicle.location)) / 10)} metrów` : null)}
+                                                {stop.onLine - whereBus(vehicle.location) > -50 ? (stop.onLine - whereBus(vehicle.location) < 85 ? "serving" : `${Math.floor((stop.onLine - whereBus(vehicle.location)) / 10)} metrów`) : null}
                                             </div>
                                         </ListItemText>
                                     </Button>
@@ -119,7 +124,7 @@ export default function ActiveVehicle({ vehicles }) {
 
 function minutesUntil(timestamp) {
     var now = new Date();
-    var then = new Date(convertTimestampToUTC(timestamp));
+    var then = convertTimestampToUTC(timestamp);
     var diff = then.getTime() - now.getTime();
     var minutes = Math.floor(diff / 1000 / 60);
     if (minutes === 0) return "";
@@ -128,7 +133,6 @@ function minutesUntil(timestamp) {
 }
 
 function convertTimestampToUTC(timestamp) {
-    var date = new Date(timestamp);
-    var utc = new Date(date.getTime() + date.getTimezoneOffset() * 60000);
-    return utc;
+    let date = new Date(timestamp);
+    return new Date(date.getTime() + date.getTimezoneOffset() * 60000);
 }
