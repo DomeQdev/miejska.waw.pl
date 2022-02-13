@@ -21,7 +21,7 @@ export default function ActiveVehicle({ vehicles }) {
         if (!vehicles.length) return;
         let v = vehicles.find(vehicle => vehicle.tab === params.bus);
         if (!v) {
-            NotificationManager.error("Nie ma tego pojazdu na trasie.");
+            NotificationManager.error(vehicle ? "Utracono połączenie z pojazdem." : "Nie ma tego pojazdu na trasie.");
             return navigate("/");
         }
         setVehicle(v);
@@ -81,10 +81,10 @@ export default function ActiveVehicle({ vehicles }) {
                                         </Avatar>
                                     </ListItemAvatar>
                                     <Button
-                                        sx={{ width: "100%", color: stop.onLine - whereBus(vehicle.location) > -25 ? "black" : "gray", textTransform: "none", padding: "0" }}
+                                        sx={{ width: "100%", color: stop.onLine - whereBus(vehicle.location) > -30 ? "black" : "gray", textTransform: "none", padding: "0" }}
                                         ref={(ref) => {
                                             stop.ref = ref;
-                                            if(!scrolled && trip.stops.filter(st => st.onLine - whereBus(vehicle.location) > -25)[0]?.stop_id === stop.stop_id) {
+                                            if (!scrolled && trip.stops.filter(st => st.onLine - whereBus(vehicle.location) > -30)[0]?.stop_id === stop.stop_id) {
                                                 ref?.scrollIntoView({ behavior: 'smooth', block: 'start' });
                                                 setScrolled(true);
                                             }
@@ -98,7 +98,7 @@ export default function ActiveVehicle({ vehicles }) {
                                                 {stop.on_request ? <PanTool style={{ width: "14px", height: "14px" }} /> : null} {stop.wheelchair_boarding ? null : <NotAccessible style={{ height: "18px", width: "18px", marginBottom: "-2px" }} />} {stop.stop_name}
                                             </div>
                                             <div style={{ float: "right" }}>
-                                                {stop.onLine - whereBus(vehicle.location) > -25 && stop.stop_sequence === 1 ? `Odjazd ${minutesUntil(stop.departure_time)}` : (stop.onLine - whereBus(vehicle.location) <= 10 ? "serving" : (stop.onLine - whereBus(vehicle.location) > 10) ? `${Math.floor((stop.onLine - whereBus(vehicle.location)) / 10)} metrów` : null)}
+                                                {stop.onLine - whereBus(vehicle.location) > -30 && stop.stop_sequence === 1 ? `Odjazd ${minutesUntil(stop.departure_time)}` : (stop.onLine - whereBus(vehicle.location) <= 10 ? "serving" : (stop.onLine - whereBus(vehicle.location) > 10) ? `${Math.floor((stop.onLine - whereBus(vehicle.location)) / 10)} metrów` : null)}
                                             </div>
                                         </ListItemText>
                                     </Button>
@@ -122,8 +122,8 @@ function minutesUntil(timestamp) {
     var then = new Date(convertTimestampToUTC(timestamp));
     var diff = then.getTime() - now.getTime();
     var minutes = Math.floor(diff / 1000 / 60);
-    if(minutes === 0) return "";
-    if(minutes < 0) return `opóźniony o ${Math.abs(minutes)} min`;
+    if (minutes === 0) return "";
+    if (minutes < 0) return `opóźniony o ${Math.abs(minutes)} min`;
     return `za ${minutes} min`;
 }
 
