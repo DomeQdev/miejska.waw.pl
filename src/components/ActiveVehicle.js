@@ -38,7 +38,7 @@ export default function ActiveVehicle({ vehicles }) {
 
     return (
         <>
-            {!vehicle || <VehicleMarker vehicle={vehicle} clickCallback={() => console.log("press")} />}
+            {!vehicle || <VehicleMarker vehicle={vehicle} />}
             {!trip || <Polyline positions={trip?.shapes} pathOptions={{ color: vehicle?.type === "bus" ? "#006b47" : "#007bff", weight: 5 }} />}
             {!trip || trip?.stops.map(stop => <StopMarker key={stop.stop_id} vehicle={vehicle} stop={stop} clickCallback={() => stop.ref.scrollIntoView({ behavior: 'smooth', block: 'start' })} />)}
             <Sheet

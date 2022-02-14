@@ -1,6 +1,6 @@
 {
-    "short_name": "Lokalizacja WTP",
-    "name": "Lokalizacja WTP",
+    "short_name": "Lokalizacja WTP BETA",
+    "name": "Lokalizacja WTP BETA",
     "description": "Lokalizacja pojazdów Warszawskiego Transportu Publicznego",
     "categories": ["navigation", "travel", "utilities"],
     "icons": [
