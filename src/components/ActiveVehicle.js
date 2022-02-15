@@ -17,6 +17,7 @@ export default function ActiveVehicle({ vehicles }) {
     const navigate = useNavigate();
     const [scrolled, setScrolled] = useState(false);
     const [displayingVehicle, setDisplayingVehicle] = useState(false);
+    const [snap, setSnap] = useState(400);
     const [vehicle, setVehicle] = useState(null);
     const [trip, setTrip] = useState(null);
 
@@ -44,16 +45,17 @@ export default function ActiveVehicle({ vehicles }) {
             {!trip || <Polyline positions={trip?.shapes} pathOptions={{ color: vehicle?.type === "bus" ? "#006b47" : "#007bff", weight: 5 }} />}
             {!trip || trip?.stops.map(stop => <StopMarker key={stop.stop_id} vehicle={vehicle} stop={stop} clickCallback={() => stop.ref.scrollIntoView({ behavior: 'smooth', block: 'start' })} />)}
             <Sheet
-                isOpen={trip}
+                isOpen={true}
                 onClose={() => navigate("/")}
-                snapPoints={[400, 0]}
-                initialSnap={0}
+                initialSnap={trip && scrolled ? 2 : 0}
+                snapPoints={trip && scrolled ? [800,600,400,200,0] : [300,0]}
+                onSnap={s => trip && scrolled ? setSnap(s === 0 ? 800 : (s === 1 ? 600 : (s === 2 ? 400 : (s === 3 ? 200 : 0)))) : null}
             >
                 <Sheet.Container>
                     <Sheet.Header>
                         <span />
                     </Sheet.Header>
-                    <Sheet.Content style={{ maxHeight: "400px" }}>
+                    <Sheet.Content style={{ maxHeight: `${snap}px` }}>
                         <Box
                             sx={{
                                 display: 'flex',
@@ -76,9 +78,9 @@ export default function ActiveVehicle({ vehicles }) {
                                         variant="outlined"
                                         style={{ color: "#000000", borderColor: vehicle?.type === "bus" ? "#006b47" : "#007bff" }}
                                         title={!displayingVehicle ? "Wyświetl informacje o pojeździe" : "Wyświetl trasę"}
-                                        onClick={() => setDisplayingVehicle(!displayingVehicle)}
+                                        onClick={() => {setDisplayingVehicle(!displayingVehicle);setScrolled(false);}}
                                     >
-                                        {displayingVehicle ? (vehicle?.type === "bus" ? <DirectionsBus style={{ height: "22px", width: "22px", fill: "#006b47" }} /> : <Tram style={{ height: "22px", width: "22px", fill: "#007bff" }} />) : <AltRoute style={{ height: "22px", width: "22px", fill: "#007bff" }} />}&nbsp;<BrowserView><b>{displayingVehicle ? "Pojazd" : "Trasa"}</b></BrowserView>
+                                        {displayingVehicle ? (vehicle?.type === "bus" ? <DirectionsBus style={{ height: "22px", width: "22px", fill: "#006b47" }} /> : <Tram style={{ height: "22px", width: "22px", fill: "#007bff" }} />) : <AltRoute style={{ height: "22px", width: "22px", fill: vehicle?.type === "bus" ? "#006b47" : "#007bff" }} />}&nbsp;<BrowserView><b>{displayingVehicle ? "Pojazd" : "Trasa"}</b></BrowserView>
                                     </Button>
                             </div>
                         </Box>
@@ -87,7 +89,7 @@ export default function ActiveVehicle({ vehicles }) {
                                 overflow: "auto",
                                 WebkitOverflowScrolling: "touch",
                                 bgcolor: 'background.paper',
-                                maxHeight: "315px",
+                                maxHeight: `calc(${snap}px - 85px)`,
                             }}
                         >
 
