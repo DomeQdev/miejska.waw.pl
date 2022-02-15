@@ -37,7 +37,7 @@ export default function ActiveVehicle({ vehicles }) {
             setTrip(res);
             map.setView(v.location, 17);
         });
-        if(!vehicleInfo) fetch(`https://api.domeqalt.repl.co/vehicle?vehicle=${v.type}${v.tab}`).then(res => res.json()).then(res => setVehicleInfo(res));
+        if(!vehicleInfo) fetch(`https://api.domeqalt.repl.co/vehicle?vehicle=${v.type}${v.tab.split("+")[0]}`).then(res => res.json()).then(res => setVehicleInfo(res));
     }, [vehicles]);
 
     return (
@@ -84,7 +84,15 @@ export default function ActiveVehicle({ vehicles }) {
                                     </Button>
                             </div> 
                         </Box>
-                        <List
+                        {displayingVehicle ? 
+                            <div style={{ maxHeight: "315px", WebkitOverflowScrolling: "touch" }}>
+                                <b>Pojazd:</b> {vehicleInfo?.brand} {vehicleInfo?.model}<br />
+                                <b>Rok produkcji:</b> {vehicleInfo?.prodYear}<br />
+                                <b>Number boczny:</b> {vehicle?.tab}<br />
+                                {vehicleInfo?.registration ? <><b>Numer rejestracyjny:</b> {vehicleInfo?.registration}<br /></> : null}
+                                {vehicleInfo?.carrier ? <><b>Przewoźnik:</b> {vehicleInfo?.carrier}<br /></> : null}
+                                {vehicleInfo?.depot ? <><b>Zajezdnia:</b> {vehicleInfo?.depot}<br /></> : null}
+                            </div> : <List
                             sx={{
                                 overflow: "auto",
                                 WebkitOverflowScrolling: "touch",
@@ -92,21 +100,7 @@ export default function ActiveVehicle({ vehicles }) {
                                 maxHeight: '315px',
                             }}
                         >
-                            {displayingVehicle ? (
-                                // {"brand":"Pesa","model":"120N","prodYear":"2012","type":"tram","registration":"","tab":"3248","carrier":"Tramwaje Warszawskie Sp. z o.o.","depot":"R-3 \"Mokotów\"","features":["niska podłoga","klimatyzacja","zapowiadanie przystanków","tablice elektroniczne","ciepłe guziki","monitoring","automat biletowy"]}
-                                <>
-                                    <p><b>Producent:</b> {vehicleInfo?.brand}</p>
-                                    <p><b>Model:</b> {vehicleInfo?.model}</p>
-                                    <p><b>Rok produkcji:</b> {vehicleInfo?.prodYear}</p>
-                                    <p><b>Typ:</b> {vehicleInfo?.type}</p>
-                                    <p><b>Numer rejestracyjny:</b> {vehicleInfo?.registration}</p>
-                                    <p><b>Numer tablicy:</b> {vehicleInfo?.tab}</p>
-                                    <p><b>Przewoźnik:</b> {vehicleInfo?.carrier}</p>
-                                    <p><b>Depo:</b> {vehicleInfo?.depot}</p>
-                                    <p><b>Funkcje:</b> {vehicleInfo?.features.map(f => <span key={f}>{f}, </span>)}</p>
-
-                                </>
-                            ) : (trip?.stops.map(stop => (
+                            {trip?.stops.map(stop => (
                                 <ListItem key={stop.stop_id}>
                                     <ListItemAvatar>
                                         <Avatar sx={{ width: 24, height: 24, backgroundColor: vehicle?.type === "bus" ? "#006b47" : "#007bff" }}>
@@ -136,8 +130,8 @@ export default function ActiveVehicle({ vehicles }) {
                                         </ListItemText>
                                     </Button>
                                 </ListItem>
-                            )).reduce((prev, curr) => [prev, <Divider variant="inset" component="li" key={Math.random()} />, curr]))}
-                        </List>
+                            )).reduce((prev, curr) => [prev, <Divider variant="inset" component="li" key={Math.random()} />, curr])}
+                        </List>}
                     </Sheet.Content>
                 </Sheet.Container>
             </Sheet>
