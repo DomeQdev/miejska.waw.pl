@@ -47,9 +47,9 @@ export default function ActiveVehicle({ vehicles }) {
             <Sheet
                 isOpen={true}
                 onClose={() => navigate("/")}
-                initialSnap={trip && scrolled ? 2 : 0}
-                snapPoints={trip && scrolled ? [800,600,400,200,0] : [300,0]}
-                onSnap={s => trip && scrolled ? setSnap(s === 0 ? 800 : (s === 1 ? 600 : (s === 2 ? 400 : (s === 3 ? 200 : 0)))) : null}
+                initialSnap={0}
+                snapPoints={trip ? [400,200,0] : [300,0]}
+                onSnap={s => trip ? setSnap(s === 0 ? 400 : 200) : null}
             >
                 <Sheet.Container>
                     <Sheet.Header>
