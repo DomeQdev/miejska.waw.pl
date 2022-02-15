@@ -18,6 +18,7 @@ export default function ActiveVehicle({ vehicles }) {
     const [scrolled, setScrolled] = useState(false);
     const [displayingVehicle, setDisplayingVehicle] = useState(false);
     const [vehicle, setVehicle] = useState(null);
+    const [vehicleInfo, setVehicleInfo] = useState(null);
     const [trip, setTrip] = useState(null);
 
     useEffect(() => {
@@ -36,6 +37,7 @@ export default function ActiveVehicle({ vehicles }) {
             setTrip(res);
             map.setView(v.location, 17);
         });
+        if(!vehicleInfo) fetch(`https://api.domeqalt.repl.co/vehicle?vehicle=${v.type}${v.tab}`).then(res => res.json()).then(res => setVehicleInfo(res));
     }, [vehicles]);
 
     return (
@@ -80,7 +82,7 @@ export default function ActiveVehicle({ vehicles }) {
                                     >
                                         {displayingVehicle ? (vehicle?.type === "bus" ? <DirectionsBus style={{ height: "22px", width: "22px", fill: "#006b47" }} /> : <Tram style={{ height: "22px", width: "22px", fill: "#007bff" }} />) : <AltRoute style={{ height: "22px", width: "22px", fill: vehicle?.type === "bus" ? "#006b47" : "#007bff" }} />}&nbsp;<BrowserView><b>{displayingVehicle ? "Pojazd" : "Trasa"}</b></BrowserView>
                                     </Button>
-                            </div>
+                            </div> 
                         </Box>
                         <List
                             sx={{
@@ -90,8 +92,21 @@ export default function ActiveVehicle({ vehicles }) {
                                 maxHeight: '315px',
                             }}
                         >
+                            {displayingVehicle ? (
+                                // {"brand":"Pesa","model":"120N","prodYear":"2012","type":"tram","registration":"","tab":"3248","carrier":"Tramwaje Warszawskie Sp. z o.o.","depot":"R-3 \"Mokotów\"","features":["niska podłoga","klimatyzacja","zapowiadanie przystanków","tablice elektroniczne","ciepłe guziki","monitoring","automat biletowy"]}
+                                <>
+                                    <p><b>Producent:</b> {vehicleInfo?.brand}</p>
+                                    <p><b>Model:</b> {vehicleInfo?.model}</p>
+                                    <p><b>Rok produkcji:</b> {vehicleInfo?.prodYear}</p>
+                                    <p><b>Typ:</b> {vehicleInfo?.type}</p>
+                                    <p><b>Numer rejestracyjny:</b> {vehicleInfo?.registration}</p>
+                                    <p><b>Numer tablicy:</b> {vehicleInfo?.tab}</p>
+                                    <p><b>Przewoźnik:</b> {vehicleInfo?.carrier}</p>
+                                    <p><b>Depo:</b> {vehicleInfo?.depot}</p>
+                                    <p><b>Funkcje:</b> {vehicleInfo?.features.map(f => <span key={f}>{f}, </span>)}</p>
 
-                            {displayingVehicle ? "tu niedługo będą informacje o pojeździe" : (trip?.stops.map(stop => (
+                                </>
+                            ) : (trip?.stops.map(stop => (
                                 <ListItem key={stop.stop_id}>
                                     <ListItemAvatar>
                                         <Avatar sx={{ width: 24, height: 24, backgroundColor: vehicle?.type === "bus" ? "#006b47" : "#007bff" }}>
