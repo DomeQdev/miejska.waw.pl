@@ -17,7 +17,6 @@ export default function ActiveVehicle({ vehicles }) {
     const navigate = useNavigate();
     const [scrolled, setScrolled] = useState(false);
     const [displayingVehicle, setDisplayingVehicle] = useState(false);
-    const [snap, setSnap] = useState(400);
     const [vehicle, setVehicle] = useState(null);
     const [trip, setTrip] = useState(null);
 
@@ -48,14 +47,13 @@ export default function ActiveVehicle({ vehicles }) {
                 isOpen={true}
                 onClose={() => navigate("/")}
                 initialSnap={0}
-                snapPoints={trip ? [400,200,0] : [300,0]}
-                onSnap={s => trip ? setSnap(s === 0 ? 400 : 200) : null}
+                snapPoints={trip ? [400,0] : [100,0]}
             >
                 <Sheet.Container>
                     <Sheet.Header>
                         <span />
                     </Sheet.Header>
-                    <Sheet.Content style={{ maxHeight: `${snap}px` }}>
+                    <Sheet.Content style={{ maxHeight: `400px` }}>
                         <Box
                             sx={{
                                 display: 'flex',
@@ -89,7 +87,7 @@ export default function ActiveVehicle({ vehicles }) {
                                 overflow: "auto",
                                 WebkitOverflowScrolling: "touch",
                                 bgcolor: 'background.paper',
-                                maxHeight: `calc(${snap}px - 85px)`,
+                                maxHeight: '315px',
                             }}
                         >
 
