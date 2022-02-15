@@ -4,8 +4,9 @@ import { Polyline, useMap } from 'react-leaflet';
 import AutoChange from './AutoChange';
 import VehicleMarker from './VehicleMarker';
 import StopMarker from './StopMarker';
+import { BrowserView } from 'react-device-detect';
 import { useParams, useNavigate } from "react-router-dom";
-import { PanTool, DirectionsBus, Tram, Accessible, NotAccessible } from '@mui/icons-material';
+import { PanTool, DirectionsBus, Tram, Accessible, NotAccessible, AltRoute } from '@mui/icons-material';
 import { nearestPointOnLine, lineString, point } from '@turf/turf';
 import { NotificationManager } from 'react-notifications';
 import Sheet from 'react-modal-sheet';
@@ -15,6 +16,7 @@ export default function ActiveVehicle({ vehicles }) {
     const params = useParams();
     const navigate = useNavigate();
     const [scrolled, setScrolled] = useState(false);
+    const [displayingVehicle, setDisplayingVehicle] = useState(false);
     const [vehicle, setVehicle] = useState(null);
     const [trip, setTrip] = useState(null);
 
@@ -61,13 +63,23 @@ export default function ActiveVehicle({ vehicles }) {
                             }}
                         >
                             <div>
-                                <Button 
-                                    variant="outlined" 
-                                    style={{ color: "#000000", borderColor: vehicle?.type === "bus" ? "#006b47" : "#007bff" }} 
+                                <Button
+                                    variant="outlined"
+                                    style={{ color: "#000000", borderColor: vehicle?.type === "bus" ? "#006b47" : "#007bff" }}
                                     onClick={() => map.setView(vehicle.location)}
                                 >
                                     {vehicle?.type === "bus" ? <DirectionsBus style={{ height: "22px", width: "22px", fill: "#006b47" }} /> : <Tram style={{ height: "22px", width: "22px", fill: "#007bff" }} />}&nbsp;<b>{trip?.route_id}</b>&nbsp;{trip?.stops.filter(st => st.onLine - whereBus(vehicle.location) > -50)[0].stop_sequence === 1 ? <AutoChange timeout={3500} text={[trip?.trip_headsign, new Date(trip?.stops[0]?.departure_time)]} /> : trip?.trip_headsign}&nbsp;{trip?.wheelchair_accessible ? <Accessible style={{ height: "22px", width: "22px" }} /> : <NotAccessible style={{ height: "22px", width: "22px" }} />}
                                 </Button>
+                            </div>
+                            <div>
+                                    <Button
+                                        variant="outlined"
+                                        style={{ color: "#000000", borderColor: vehicle?.type === "bus" ? "#006b47" : "#007bff" }}
+                                        title={!displayingVehicle ? "Wyświetl informacje o pojeździe" : "Wyświetl trasę"}
+                                        onClick={() => setDisplayingVehicle(!displayingVehicle)}
+                                    >
+                                        {displayingVehicle ? (vehicle?.type === "bus" ? <DirectionsBus style={{ height: "22px", width: "22px", fill: "#006b47" }} /> : <Tram style={{ height: "22px", width: "22px", fill: "#007bff" }} />) : <AltRoute style={{ height: "22px", width: "22px", fill: "#007bff" }} />}&nbsp;<BrowserView><b>{displayingVehicle ? "Pojazd" : "Trasa"}</b></BrowserView>
+                                    </Button>
                             </div>
                         </Box>
                         <List
@@ -78,7 +90,8 @@ export default function ActiveVehicle({ vehicles }) {
                                 maxHeight: "315px",
                             }}
                         >
-                            {trip?.stops.map(stop => (
+
+                            {displayingVehicle ? "tu niedługo będą informacje o pojeździe" : (trip?.stops.map(stop => (
                                 <ListItem key={stop.stop_id}>
                                     <ListItemAvatar>
                                         <Avatar sx={{ width: 24, height: 24, backgroundColor: vehicle?.type === "bus" ? "#006b47" : "#007bff" }}>
@@ -108,7 +121,7 @@ export default function ActiveVehicle({ vehicles }) {
                                         </ListItemText>
                                     </Button>
                                 </ListItem>
-                            )).reduce((prev, curr) => [prev, <Divider variant="inset" component="li" key={Math.random()} />, curr])}
+                            )).reduce((prev, curr) => [prev, <Divider variant="inset" component="li" key={Math.random()} />, curr]))}
                         </List>
                     </Sheet.Content>
                 </Sheet.Container>
