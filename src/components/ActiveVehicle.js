@@ -42,9 +42,9 @@ export default function ActiveVehicle({ vehicles }) {
 
     return (
         <>
-            {!vehicle || <VehicleMarker vehicle={vehicle} />}
-            {!trip || <Polyline positions={trip?.shapes} pathOptions={{ color: vehicle?.type === "bus" ? "#006b47" : "#007bff", weight: 5 }} />}
-            {!trip || trip?.stops.map(stop => <StopMarker key={stop.stop_id} vehicle={vehicle} stop={stop} clickCallback={() => stop.ref.scrollIntoView({ behavior: 'smooth', block: 'start' })} />)}
+            {!vehicle || <VehicleMarker vehicle={vehicle} active={true} trip={trip} />}
+            {!trip || <Polyline positions={trip?.shapes} pathOptions={{ color: vehicle?.type === "bus" ? "#006b47" : "#007bff", weight: 7 }} />}
+            {!trip || trip?.stops.map(stop => <StopMarker key={stop.stop_id} vehicle={vehicle} stop={stop} trip={trip} clickCallback={() => stop.ref.scrollIntoView({ behavior: 'smooth', block: 'start' })} />)}
             <Sheet
                 isOpen={true}
                 onClose={() => navigate("/")}
@@ -148,6 +148,7 @@ export default function ActiveVehicle({ vehicles }) {
 
     function whereBus(location) {
         if (typeof location !== "object") return 0;
+        // dist is from line
         return nearestPointOnLine(lineString(trip?.shapes), point(location), { units: 'meters' }).properties.location;
     }
 }

@@ -38,6 +38,21 @@ body {
 .line-number{margin:0 auto;display:block;font-size:15px;font-weight:700}
 .vehicle-marker{background-color:#fff;box-shadow:1px 4px 7px #8a8a8a;position:relative;border-radius:15px;display:flex;outline:none;align-items:center;padding:0 6px!important;z-index:1000!important;}
 
+.vehicle-marker-active{
+    background-color: #fff;
+    box-shadow:1px 4px 7px #8a8a8a;
+    width: 5px;
+    border: 0;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    justify-content: center;
+    outline: none;
+    border-radius: 18px;
+    height: 5px;
+}
+
 .bus{color:#006b47!important;border:2px solid #006b47!important;}
 .tram{color:#007bff!important;border:2px solid #007bff!important;}
 

@@ -1,12 +1,13 @@
 import { Marker } from 'react-leaflet';
 import { divIcon } from 'leaflet';
 import { renderToStaticMarkup } from 'react-dom/server';
+import { nearestPointOnLine, lineString, point } from '@turf/turf';
 
-export default function StopMarker({ vehicle, stop, clickCallback }) {
+export default function StopMarker({ vehicle, stop, trip, clickCallback }) {
     return (
         <Marker
             key={stop.stop_id}
-            position={stop.location}
+            position={nearest(stop.location)}
             eventHandlers={{
                 click: () => clickCallback()
             }}
@@ -19,5 +20,10 @@ export default function StopMarker({ vehicle, stop, clickCallback }) {
             })}
             zIndexOffset={100}
         />
-    )
+    );
+
+    function nearest(location) {
+        if (typeof location !== "object" || !trip) return null;
+        return nearestPointOnLine(lineString(trip?.shapes), point(location), { units: 'meters' }).geometry.coordinates;
+    }
 }
