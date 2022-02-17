@@ -89,7 +89,7 @@ export default function ActiveVehicle({ vehicles }) {
                                 <b>Pojazd:</b> {vehicleInfo?.brand} {vehicleInfo?.model}<br />
                                 <b>Rok produkcji:</b> {vehicleInfo?.prodYear}<br />
                                 <b>Numer boczny:</b> {vehicle?.tab}<br />
-                                {vehicleInfo?.description ? <><b>Opis pojazdu:</b> {vehicleInfo?.description}</> : null}
+                                {vehicleInfo?.description ? <><b>Opis pojazdu:</b> {vehicleInfo?.description}<br /></> : null}
                                 {vehicleInfo?.registration ? <><b>Numer rejestracyjny:</b> {vehicleInfo?.registration}<br /></> : null}
                                 {vehicleInfo?.carrier ? <><b>Przewoznik:</b> {vehicleInfo?.carrier}<br /></> : null}
                                 {vehicleInfo?.depot ? <><b>Zajezdnia:</b> {vehicleInfo?.depot}<br /></> : null}
