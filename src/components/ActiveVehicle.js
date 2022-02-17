@@ -95,10 +95,9 @@ export default function ActiveVehicle({ vehicles }) {
                                 {vehicleInfo?.depot ? <><b>Zajezdnia:</b> {vehicleInfo?.depot}<br /></> : null}
                                 {vehicleInfo?.features?.length ? <><b>Wyposażenie:</b> {vehicleInfo?.features?.join(", ")}<br /></> : null}
                                 {vehicle?.tab?.includes("+") ? `Informacje są pobierane z wagonu #${vehicle?.tab?.split("+")[0]}.` : null}
-                                <p style={{height: "10px"}} />
+                                <p style={{ height: "20px" }} />
                                 <div style={{ textAlign: "center" }}>
-                                    <h3>Podoba ci sie projekt?</h3>
-                                    <p>Powiedz o nim znajomym! Strona jest w 100% darmowa i wolna od reklam!</p>
+                                    <p>&copy; <b>DomeQ#0001</b> 2022</p>
                                 </div>
                             </div> : <List
                             sx={{
