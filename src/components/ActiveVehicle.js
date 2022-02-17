@@ -93,6 +93,7 @@ export default function ActiveVehicle({ vehicles }) {
                                 {vehicleInfo?.carrier ? <><b>Przewoznik:</b> {vehicleInfo?.carrier}<br /></> : null}
                                 {vehicleInfo?.depot ? <><b>Zajezdnia:</b> {vehicleInfo?.depot}<br /></> : null}
                                 {vehicleInfo?.features?.length ? <><b>Wyposazenie:</b> {vehicleInfo?.features?.join(", ")}<br /></> : null}
+                                {vehicle?.tab?.includes("+") ? `Informacje są pobierane z wagonu #${vehicle?.tab?.split("+")[0]}.` : null}
                                 <p style={{height: "10px"}} />
                                 <div style={{ textAlign: "center" }}>
                                     <h3>Podoba ci sie projekt?</h3>
