@@ -37,7 +37,7 @@ export default function ActiveVehicle({ vehicles }) {
             setTrip(res);
             map.setView(v.location, 17);
         });
-        if(!vehicleInfo) fetch(`https://api.domeqalt.repl.co/vehicle?vehicle=${v.type}${v.tab.split("+")[0]}`).then(res => res.json()).then(res => setVehicleInfo(res));
+        if(!vehicleInfo) fetch(`https://vehicles.domeqalt.repl.co/?vehicle=${v.type}${v.tab.split("+")[0]}`).then(res => res.json()).then(res => setVehicleInfo(res));
     }, [vehicles]);
 
     return (
@@ -89,6 +89,7 @@ export default function ActiveVehicle({ vehicles }) {
                                 <b>Pojazd:</b> {vehicleInfo?.brand} {vehicleInfo?.model}<br />
                                 <b>Rok produkcji:</b> {vehicleInfo?.prodYear}<br />
                                 <b>Numer boczny:</b> {vehicle?.tab}<br />
+                                {vehicleInfo?.description ? <><b>Opis pojazdu:</b> {vehicleInfo?.description}</> : null}
                                 {vehicleInfo?.registration ? <><b>Numer rejestracyjny:</b> {vehicleInfo?.registration}<br /></> : null}
                                 {vehicleInfo?.carrier ? <><b>Przewoznik:</b> {vehicleInfo?.carrier}<br /></> : null}
                                 {vehicleInfo?.depot ? <><b>Zajezdnia:</b> {vehicleInfo?.depot}<br /></> : null}
