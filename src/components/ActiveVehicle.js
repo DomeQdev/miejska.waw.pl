@@ -91,9 +91,9 @@ export default function ActiveVehicle({ vehicles }) {
                                 <b>Numer boczny:</b> {vehicle?.tab}<br />
                                 {vehicleInfo?.description ? <><b>Opis pojazdu:</b> {vehicleInfo?.description}<br /></> : null}
                                 {vehicleInfo?.registration ? <><b>Numer rejestracyjny:</b> {vehicleInfo?.registration}<br /></> : null}
-                                {vehicleInfo?.carrier ? <><b>Przewoznik:</b> {vehicleInfo?.carrier}<br /></> : null}
+                                {vehicleInfo?.carrier ? <><b>Przewoźnik:</b> {vehicleInfo?.carrier}<br /></> : null}
                                 {vehicleInfo?.depot ? <><b>Zajezdnia:</b> {vehicleInfo?.depot}<br /></> : null}
-                                {vehicleInfo?.features?.length ? <><b>Wyposazenie:</b> {vehicleInfo?.features?.join(", ")}<br /></> : null}
+                                {vehicleInfo?.features?.length ? <><b>Wyposażenie:</b> {vehicleInfo?.features?.join(", ")}<br /></> : null}
                                 {vehicle?.tab?.includes("+") ? `Informacje są pobierane z wagonu #${vehicle?.tab?.split("+")[0]}.` : null}
                                 <p style={{height: "10px"}} />
                                 <div style={{ textAlign: "center" }}>

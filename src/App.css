@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai+Looped&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
 body {
     width: 100%; 
@@ -7,7 +7,7 @@ body {
     margin: 0;
     overflow: hidden;
     scroll-behavior: smooth;
-    font-family: 'IBM Plex Sans Thai Looped', sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 
 .leaflet-control-attribution {
