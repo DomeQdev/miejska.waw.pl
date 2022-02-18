@@ -1,11 +1,13 @@
-import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button, Radio, RadioGroup, FormControlLabel, FormControl, FormLabel } from '@mui/material';
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button, Radio, RadioGroup, FormControlLabel, FormControl, FormLabel, TextField } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { NotificationManager } from 'react-notifications';
 
 export default function Main() {
     const navigate = useNavigate();
     const settings = localStorage.getItem("settings") ? JSON.parse(localStorage.getItem("settings")) : {};
     const [mapstyle, setMapstyle] = useState(settings.mapstyle || "osmdefault");
+    const [customMapStyle, setcustomMapStyle] = useState(settings.customMapStyle || "");
     return (
         <div>
             <Dialog
@@ -34,12 +36,25 @@ export default function Main() {
                                 value={mapstyle}
                                 onChange={({ target }) => setMapstyle(target.value)}
                             >
-                                <FormControlLabel value="osmdefault" control={<Radio sx={{'&':{color:'white'}}} />} label="OSM Default" />
-                                <FormControlLabel value="mapboxbasic" control={<Radio sx={{'&':{color:'white'}}} />} label="Mapbox Basic" />
-                                <FormControlLabel value="mapboxmonochrame" control={<Radio sx={{'&':{color:'white'}}} />} label="Mapbox Monochrame" />
-                                <FormControlLabel value="mapboxstreets" control={<Radio sx={{'&':{color:'white'}}} />} label="Mapbox Streets" />
-                                <FormControlLabel value="mapboxsatellite" control={<Radio sx={{'&':{color:'white'}}} />} label="Mapbox Satellite" />
-                                <FormControlLabel value="mapboxnavigation" control={<Radio sx={{'&':{color:'white'}}} />} label="Mapbox Navigation" />                                
+                                <FormControlLabel value="osmdefault" control={<Radio sx={{ '&': { color: 'white' } }} />} label="OSM Default" />
+                                <FormControlLabel value="mapboxbasic" control={<Radio sx={{ '&': { color: 'white' } }} />} label="Mapbox Basic" />
+                                <FormControlLabel value="mapboxmonochrame" control={<Radio sx={{ '&': { color: 'white' } }} />} label="Mapbox Monochrame" />
+                                <FormControlLabel value="mapboxstreets" control={<Radio sx={{ '&': { color: 'white' } }} />} label="Mapbox Streets" />
+                                <FormControlLabel value="mapboxsatellite" control={<Radio sx={{ '&': { color: 'white' } }} />} label="Mapbox Satellite" />
+                                <FormControlLabel value="mapboxnavigation" control={<Radio sx={{ '&': { color: 'white' } }} />} label="Mapbox Navigation" />
+                                <FormControlLabel value="custom" control={<Radio sx={{ '&': { color: 'white' } }} />} label="Własna mapa (zaawansowane)" />
+                                {mapstyle === "custom" ? <><TextField
+                                    autoFocus
+                                    margin="dense"
+                                    label="Tile Layer URL"
+                                    placeholder='https://moja_mapa.org/{z}/{x}/{y}.png'
+                                    type="url"
+                                    fullWidth
+                                    variant="standard"
+                                    sx={{ color: 'white' }}
+                                    value={customMapStyle}
+                                    onChange={({ target }) => setcustomMapStyle(target.value)}
+                                /><b>Jest to funkcja przeznaczona dla osób, które hostują własne mapy!</b><p>Link powinien zawierać {`{x}, {y} i {z}`} aby wszystko poprawnie działało. Link nie jest sprawdzany pod względem poprawności.</p></> : null}
                             </RadioGroup>
                         </FormControl>
                     </DialogContentText>
@@ -47,8 +62,10 @@ export default function Main() {
                 <DialogActions>
                     <Button onClick={() => navigate("/")}>Anuluj</Button>
                     <Button onClick={() => {
-                        localStorage.setItem("settings", JSON.stringify({ 
-                            mapstyle
+                        if(mapstyle === "custom" && !customMapStyle) return NotificationManager.error("Podaj link do spersonalizowanej mapy lub zmień styl mapy.");
+                        localStorage.setItem("settings", JSON.stringify({
+                            mapstyle,
+                            customMapStyle: mapstyle === "custom" ? customMapStyle : null
                         }));
                         navigate("/");
                         window.location.reload();

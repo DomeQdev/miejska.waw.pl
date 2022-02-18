@@ -38,6 +38,8 @@ body {
 .line-number{margin:0 auto;display:block;font-size:15px;font-weight:700}
 .vehicle-marker{background-color:#fff;box-shadow:1px 4px 7px #8a8a8a;position:relative;border-radius:15px;display:flex;outline:none;align-items:center;padding:0 6px!important;z-index:1000!important;}
 
+.MuiInput-input{color:white!important;}
+
 .vehicle-marker-active{
     background-color: #fff;
     box-shadow:1px 4px 7px #8a8a8a;

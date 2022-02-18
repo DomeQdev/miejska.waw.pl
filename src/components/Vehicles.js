@@ -11,12 +11,13 @@ export default function Vehicles({ vehicles }) {
     const map = useMap();
     const [ bounds, setBounds ] = useState(map.getBounds());
 
+    const vehiclesInBounds = vehicles.filter(vehicle => bounds.contains(latLng(vehicle.location))).length
     return (
         <>
             <Events />
             <Routes>
                 <Route path="/" element={<>
-                    {vehicles.filter(vehicle => bounds.contains(latLng(vehicle.location)) && map.getZoom() > 15).map(vehicle => (
+                    {vehicles.filter(vehicle => bounds.contains(latLng(vehicle.location)) && (vehiclesInBounds < 75 || map.getZoom() > 15)).map(vehicle => (
                         <VehicleMarker key={vehicle.trip} vehicle={vehicle} clickCallback={() => <Navigate to={`/${vehicle.tab}`} />} />
                     ))}
                 </>} />
