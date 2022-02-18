@@ -86,9 +86,10 @@ export default function ActiveVehicle({ vehicles }) {
                         </Box>
                         {displayingVehicle ? 
                             <div style={{ maxHeight: "315px", WebkitOverflowScrolling: "touch", paddingLeft: "20px", overflow: "auto" }}>
-                                <b>Pojazd:</b> {vehicleInfo?.brand} {vehicleInfo?.model}<br />
+                                <h3>{vehicleInfo?.brand} {vehicleInfo?.model}</h3>
                                 <b>Rok produkcji:</b> {vehicleInfo?.prodYear}<br />
                                 <b>Numer boczny:</b> {vehicle?.tab}<br />
+                                <b>Brygada:</b> {vehicle?.brigade}<br />
                                 {vehicleInfo?.description ? <><b>Opis pojazdu:</b> {vehicleInfo?.description}<br /></> : null}
                                 {vehicleInfo?.registration ? <><b>Numer rejestracyjny:</b> {vehicleInfo?.registration}<br /></> : null}
                                 {vehicleInfo?.carrier ? <><b>Przewoźnik:</b> {vehicleInfo?.carrier}<br /></> : null}
