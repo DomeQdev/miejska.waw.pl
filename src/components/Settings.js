@@ -8,6 +8,8 @@ export default function Main() {
     const settings = localStorage.getItem("settings") ? JSON.parse(localStorage.getItem("settings")) : {};
     const [mapstyle, setMapstyle] = useState(settings.mapstyle || "osmdefault");
     const [customMapStyle, setcustomMapStyle] = useState(settings.customMapStyle || "");
+    const [height, setHeight] = useState(settings.height || 400);
+
     return (
         <div>
             <Dialog
@@ -57,6 +59,20 @@ export default function Main() {
                                 /><b>Jest to funkcja przeznaczona dla osób, które hostują własne mapy!</b><p>Link powinien zawierać {`{x}, {y} i {z}`} aby wszystko poprawnie działało. Link nie jest sprawdzany pod względem poprawności.</p></> : null}
                             </RadioGroup>
                         </FormControl>
+
+                        <FormControl>
+                            <FormLabel id="demo-radio-buttons-group-label" style={{ color: "white" }}>Długość okna z trasą pojazdu</FormLabel>
+                            <TextField
+                                margin="dense"
+                                label="Długość w pikselach"
+                                type="number"
+                                fullWidth
+                                variant="standard"
+                                sx={{ color: 'white' }}
+                                value={height}
+                                onChange={({ target }) => setHeight(Number(target.value))}
+                            />
+                        </FormControl>
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
@@ -65,7 +81,8 @@ export default function Main() {
                         if(mapstyle === "custom" && !customMapStyle) return NotificationManager.error("Podaj link do spersonalizowanej mapy lub zmień styl mapy.");
                         localStorage.setItem("settings", JSON.stringify({
                             mapstyle,
-                            customMapStyle: mapstyle === "custom" ? customMapStyle : null
+                            customMapStyle: mapstyle === "custom" ? customMapStyle : null,
+                            height
                         }));
                         navigate("/");
                         window.location.reload();

@@ -15,6 +15,7 @@ export default function ActiveVehicle({ vehicles }) {
     const map = useMap();
     const params = useParams();
     const navigate = useNavigate();
+    const settings = localStorage.getItem("settings") ? JSON.parse(localStorage.getItem("settings")) : {};
     const [scrolled, setScrolled] = useState(false);
     const [displayingVehicle, setDisplayingVehicle] = useState(false);
     const [vehicle, setVehicle] = useState(null);
@@ -49,13 +50,13 @@ export default function ActiveVehicle({ vehicles }) {
                 isOpen={true}
                 onClose={() => navigate("/")}
                 initialSnap={0}
-                snapPoints={trip ? [400, 0] : [100, 0]}
+                snapPoints={trip ? [settings.height || 400, 0] : [100, 0]}
             >
                 <Sheet.Container>
                     <Sheet.Header>
                         <span />
                     </Sheet.Header>
-                    <Sheet.Content style={{ maxHeight: `400px` }}>
+                    <Sheet.Content style={{ maxHeight: `${settings.height || 400}px` }}>
                         <Box
                             sx={{
                                 display: 'flex',
@@ -89,7 +90,7 @@ export default function ActiveVehicle({ vehicles }) {
                             </div>
                         </Box>
                         {displayingVehicle ?
-                            <div style={{ maxHeight: "315px", WebkitOverflowScrolling: "touch", paddingLeft: "20px", overflow: "auto" }}>
+                            <div style={{ maxHeight: `${(settings.height || 400) - 85}px`, WebkitOverflowScrolling: "touch", paddingLeft: "20px", overflow: "auto" }}>
                                 <h3>{vehicleInfo?.brand} {vehicleInfo?.model}</h3>
                                 <b>Rok produkcji:</b> {vehicleInfo?.prodYear}<br />
                                 <b>Numer boczny:</b> {vehicle?.tab}<br />
@@ -100,11 +101,7 @@ export default function ActiveVehicle({ vehicles }) {
                                 {vehicleInfo?.depot ? <><b>Zajezdnia:</b> {vehicleInfo?.depot}<br /></> : null}
                                 {vehicleInfo?.features?.length ? <><b>Wyposażenie:</b> {vehicleInfo?.features?.join(", ")}<br /></> : null}
                                 {vehicle?.tab?.includes("+") ? `Informacje są pobierane z wagonu #${vehicle?.tab?.split("+")[0]}.` : null}
-                                <p style={{ height: "20px" }} />
-                                <div style={{ textAlign: "center" }}>
-                                    <p>&copy; <b>DomeQ#0001</b> 2022</p>
-                                </div>
-                            </div> : <List sx={{ overflow: "auto", WebkitOverflowScrolling: "touch", bgcolor: 'background.paper', maxHeight: '315px' }}>
+                            </div> : <List sx={{ overflow: "auto", WebkitOverflowScrolling: "touch", bgcolor: 'background.paper', maxHeight: `${(settings.height || 400) - 85}px` }}>
                                 {trip?.stops.map(stop => (
                                     <ListItem key={stop.stop_id}>
                                         <ListItemAvatar>
