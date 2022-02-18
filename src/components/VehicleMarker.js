@@ -20,6 +20,7 @@ export default function VehicleMarker({ vehicle, active, trip }) {
                         className: '',
                         html: renderToStaticMarkup(<span className={`vehicle-marker-active`}>{vehicle.type === "bus" ? <DirectionsBus style={{ height: "20px", width: "20px", fill: "#000" }} /> : <Tram style={{ height: "20px", width: "20px" }} />}</span>),
                         iconSize: [5, 5],
+                        iconAnchor: [12, 12]
                     })}
                     zIndexOffset={1000}
                 />
