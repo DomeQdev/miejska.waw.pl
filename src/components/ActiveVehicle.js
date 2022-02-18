@@ -37,7 +37,7 @@ export default function ActiveVehicle({ vehicles }) {
             setTrip(res);
             map.setView(v.location, 17);
         });
-        if(!vehicleInfo) fetch(`https://vehicles.domeqalt.repl.co/?vehicle=${v.type}${v.tab.split("+")[0]}`).then(res => res.json()).then(res => setVehicleInfo(res)).catch(() => setVehicleInfo({ error: "Przepraszamy, pojazdu nadal nie ma w naszej bazie danych. Daj nam do 10 minut na pobranie go." }));
+        if (!vehicleInfo) fetch(`https://vehicles.domeqalt.repl.co/?vehicle=${v.type}${v.tab.split("+")[0]}`).then(res => res.json()).then(res => setVehicleInfo(res)).catch(() => setVehicleInfo({ error: "Przepraszamy, pojazdu nadal nie ma w naszej bazie danych. Daj nam do 10 minut na pobranie go." }));
     }, [vehicles]);
 
     return (
@@ -49,7 +49,7 @@ export default function ActiveVehicle({ vehicles }) {
                 isOpen={true}
                 onClose={() => navigate("/")}
                 initialSnap={0}
-                snapPoints={trip ? [400,0] : [100,0]}
+                snapPoints={trip ? [400, 0] : [100, 0]}
             >
                 <Sheet.Container>
                     <Sheet.Header>
@@ -74,21 +74,21 @@ export default function ActiveVehicle({ vehicles }) {
                                 </Button>
                             </div>
                             <div>
-                                    <Button
-                                        variant="outlined"
-                                        style={{ color: "#000000", borderColor: vehicle?.type === "bus" ? "#006b47" : "#007bff" }}
-                                        title={!displayingVehicle ? "Wyświetl informacje o pojeździe" : "Wyświetl trasę"}
-                                        onClick={() => {
-                                            if(vehicleInfo.error) return NotificationManager.error(displayingVehicle.error);
-                                            setDisplayingVehicle(!displayingVehicle);
-                                            setScrolled(false);
-                                        }}
-                                    >
-                                        {displayingVehicle ? (vehicle?.type === "bus" ? <DirectionsBus style={{ height: "22px", width: "22px", fill: "#006b47" }} /> : <Tram style={{ height: "22px", width: "22px", fill: "#007bff" }} />) : <AltRoute style={{ height: "22px", width: "22px", fill: vehicle?.type === "bus" ? "#006b47" : "#007bff" }} />}&nbsp;<BrowserView><b>{displayingVehicle ? "Pojazd" : "Trasa"}</b></BrowserView>
-                                    </Button>
-                            </div> 
+                                <Button
+                                    variant="outlined"
+                                    style={{ color: "#000000", borderColor: vehicle?.type === "bus" ? "#006b47" : "#007bff" }}
+                                    title={!displayingVehicle ? "Wyświetl informacje o pojeździe" : "Wyświetl trasę"}
+                                    onClick={() => {
+                                        if (vehicleInfo.error) return NotificationManager.error(displayingVehicle.error);
+                                        setDisplayingVehicle(!displayingVehicle);
+                                        setScrolled(false);
+                                    }}
+                                >
+                                    {displayingVehicle ? (vehicle?.type === "bus" ? <DirectionsBus style={{ height: "22px", width: "22px", fill: "#006b47" }} /> : <Tram style={{ height: "22px", width: "22px", fill: "#007bff" }} />) : <AltRoute style={{ height: "22px", width: "22px", fill: vehicle?.type === "bus" ? "#006b47" : "#007bff" }} />}&nbsp;<BrowserView><b>{displayingVehicle ? "Pojazd" : "Trasa"}</b></BrowserView>
+                                </Button>
+                            </div>
                         </Box>
-                        {displayingVehicle ? 
+                        {displayingVehicle ?
                             <div style={{ maxHeight: "315px", WebkitOverflowScrolling: "touch", paddingLeft: "20px", overflow: "auto" }}>
                                 <h3>{vehicleInfo?.brand} {vehicleInfo?.model}</h3>
                                 <b>Rok produkcji:</b> {vehicleInfo?.prodYear}<br />
@@ -104,46 +104,39 @@ export default function ActiveVehicle({ vehicles }) {
                                 <div style={{ textAlign: "center" }}>
                                     <p>&copy; <b>DomeQ#0001</b> 2022</p>
                                 </div>
-                            </div> : <List
-                            sx={{
-                                overflow: "auto",
-                                WebkitOverflowScrolling: "touch",
-                                bgcolor: 'background.paper',
-                                maxHeight: '315px',
-                            }}
-                        >
-                            {trip?.stops.map(stop => (
-                                <ListItem key={stop.stop_id}>
-                                    <ListItemAvatar>
-                                        <Avatar sx={{ width: 24, height: 24, backgroundColor: vehicle?.type === "bus" ? "#006b47" : "#007bff" }}>
-                                            <span style={{ fontSize: "15px" }}>{stop.stop_sequence}</span>
-                                        </Avatar>
-                                    </ListItemAvatar>
-                                    <Button
-                                        sx={{ width: "100%", color: stop.onLine - whereBus(vehicle.location) > -50 ? "black" : "gray", textTransform: "none", padding: "0" }}
-                                        ref={(ref) => {
-                                            stop.ref = ref;
-                                            if (!scrolled && trip.stops.filter(st => st.onLine - whereBus(vehicle.location) > -50)[0]?.stop_id === stop.stop_id) {
-                                                ref?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                                                setScrolled(true);
-                                            }
-                                        }}
-                                    >
-                                        <ListItemText onClick={() => {
-                                            map.setView(stop.location, 16);
-                                            stop.ref.scrollIntoView({ behavior: 'smooth', block: 'start' })
-                                        }}>
-                                            <div style={{ float: "left" }}>
-                                                {stop.on_request ? <PanTool style={{ width: "14px", height: "14px" }} /> : null} {stop.wheelchair_boarding ? null : <NotAccessible style={{ height: "18px", width: "18px", marginBottom: "-2px" }} />} {stop.stop_name}
-                                            </div>
-                                            <div style={{ float: "right" }}>
-                                                {stop.onLine - whereBus(vehicle.location) > -50 ? (stop.onLine - whereBus(vehicle.location) < 85 ? "serving" : `${Math.floor((stop.onLine - whereBus(vehicle.location)) / 10)} metrów`) : null}
-                                            </div>
-                                        </ListItemText>
-                                    </Button>
-                                </ListItem>
-                            )).reduce((prev, curr) => [prev, <Divider variant="inset" component="li" key={Math.random()} />, curr])}
-                        </List>}
+                            </div> : <List sx={{ overflow: "auto", WebkitOverflowScrolling: "touch", bgcolor: 'background.paper', maxHeight: '315px' }}>
+                                {trip?.stops.map(stop => (
+                                    <ListItem key={stop.stop_id}>
+                                        <ListItemAvatar>
+                                            <Avatar sx={{ width: 24, height: 24, backgroundColor: vehicle?.type === "bus" ? "#006b47" : "#007bff" }}>
+                                                <span style={{ fontSize: "15px" }}>{stop.stop_sequence}</span>
+                                            </Avatar>
+                                        </ListItemAvatar>
+                                        <Button
+                                            sx={{ width: "100%", color: stop.onLine - whereBus(vehicle.location) > -50 ? "black" : "gray", textTransform: "none", padding: "0" }}
+                                            ref={(ref) => {
+                                                stop.ref = ref;
+                                                if (!scrolled && trip.stops.filter(st => st.onLine - whereBus(vehicle.location) > -50)[0]?.stop_id === stop.stop_id) {
+                                                    ref?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                                    setScrolled(true);
+                                                }
+                                            }}
+                                        >
+                                            <ListItemText onClick={() => {
+                                                map.setView(stop.location, 16);
+                                                stop.ref.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                                            }}>
+                                                <div style={{ float: "left" }}>
+                                                    {stop.on_request ? <PanTool style={{ width: "14px", height: "14px" }} /> : null} {stop.wheelchair_boarding ? null : <NotAccessible style={{ height: "18px", width: "18px", marginBottom: "-2px" }} />} {stop.stop_name}
+                                                </div>
+                                                <div style={{ float: "right" }}>
+                                                    {stop.onLine - whereBus(vehicle.location) > -50 ? (stop.onLine - whereBus(vehicle.location) < 85 ? "serving" : `${Math.floor((stop.onLine - whereBus(vehicle.location)) / 10)} metrów`) : null}
+                                                </div>
+                                            </ListItemText>
+                                        </Button>
+                                    </ListItem>
+                                )).reduce((prev, curr) => [prev, <Divider variant="inset" component="li" key={Math.random()} />, curr])}
+                            </List>}
                     </Sheet.Content>
                 </Sheet.Container>
             </Sheet>
@@ -152,7 +145,6 @@ export default function ActiveVehicle({ vehicles }) {
 
     function whereBus(location) {
         if (typeof location !== "object") return 0;
-        // dist is from line
         return nearestPointOnLine(lineString(trip?.shapes), point(location), { units: 'meters' }).properties.location;
     }
 }
