@@ -9,7 +9,7 @@ import Settings from './Settings';
 
 export default function Vehicles({ vehicles }) {
     const map = useMap();
-    const [ bounds, setBounds ] = useState(map.getBounds());
+    const [bounds, setBounds] = useState(map.getBounds());
 
     const vehiclesInBounds = vehicles.filter(vehicle => bounds.contains(latLng(vehicle.location))).length
     return (

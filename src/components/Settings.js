@@ -59,7 +59,7 @@ export default function Main() {
                                 /><b>Jest to funkcja przeznaczona dla osób, które hostują własne mapy!</b><p>Link powinien zawierać {`{x}, {y} i {z}`} aby wszystko poprawnie działało. Link nie jest sprawdzany pod względem poprawności.</p></> : null}
                             </RadioGroup>
                         </FormControl>
-
+                        <p style={{ height: "20px" }} />
                         <FormControl>
                             <FormLabel id="demo-radio-buttons-group-label" style={{ color: "white" }}>Długość okna z trasą pojazdu</FormLabel>
                             <TextField
@@ -78,7 +78,7 @@ export default function Main() {
                 <DialogActions>
                     <Button onClick={() => navigate("/")}>Anuluj</Button>
                     <Button onClick={() => {
-                        if(mapstyle === "custom" && !customMapStyle) return NotificationManager.error("Podaj link do spersonalizowanej mapy lub zmień styl mapy.");
+                        if (mapstyle === "custom" && !customMapStyle) return NotificationManager.error("Podaj link do spersonalizowanej mapy lub zmień styl mapy.");
                         localStorage.setItem("settings", JSON.stringify({
                             mapstyle,
                             customMapStyle: mapstyle === "custom" ? customMapStyle : null,

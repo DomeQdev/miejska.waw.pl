@@ -18,7 +18,7 @@ export default function App() {
   );
 
   function get(style) {
-    switch(style) {
+    switch (style) {
       case "osmdefault":
         return "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
       case "mapboxbasic":
