@@ -9,8 +9,7 @@ export default function VehicleMarker({ vehicle, active, trip }) {
     const navigate = useNavigate();
 
     if (active && trip && distance(vehicle.location)?.properties?.dist < 30) {
-        const { geometry, properties } = distance(vehicle.location);
-        console.log({ geometry, properties })
+        const { geometry } = distance(vehicle.location);
         return (
             <>
                 <Marker

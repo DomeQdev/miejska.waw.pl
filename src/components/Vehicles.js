@@ -4,6 +4,8 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { useMapEvents, useMap } from 'react-leaflet';
 import VehicleMarker from './VehicleMarker';
 import ActiveVehicle from './ActiveVehicle';
+import Filter from './Filter';
+import Settings from './Settings';
 
 export default function Vehicles({ vehicles }) {
     const map = useMap();
@@ -19,6 +21,8 @@ export default function Vehicles({ vehicles }) {
                     ))}
                 </>} />
                 <Route path="/track/:type/:bus" element={<ActiveVehicle vehicles={vehicles} />} />
+                <Route path="/filter" element={<Filter />} />
+                <Route path="/settings" element={<Settings />} />
             </Routes>
         </>
     );
