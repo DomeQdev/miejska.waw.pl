@@ -37,7 +37,7 @@ export default function ActiveVehicle({ vehicles }) {
             setTrip(res);
             map.setView(v.location, 17);
         });
-        if(!vehicleInfo) fetch(`https://vehicles.domeqalt.repl.co/?vehicle=${v.type}${v.tab.split("+")[0]}`).then(res => res.json()).then(res => setVehicleInfo(res));
+        if(!vehicleInfo) fetch(`https://vehicles.domeqalt.repl.co/?vehicle=${v.type}${v.tab.split("+")[0]}`).then(res => res.json()).then(res => setVehicleInfo(res)).catch(() => setVehicleInfo({ error: "Przepraszamy, pojazdu nadal nie ma w naszej bazie danych. Daj nam do 10 minut na pobranie go." }));
     }, [vehicles]);
 
     return (
@@ -78,7 +78,11 @@ export default function ActiveVehicle({ vehicles }) {
                                         variant="outlined"
                                         style={{ color: "#000000", borderColor: vehicle?.type === "bus" ? "#006b47" : "#007bff" }}
                                         title={!displayingVehicle ? "Wyświetl informacje o pojeździe" : "Wyświetl trasę"}
-                                        onClick={() => {setDisplayingVehicle(!displayingVehicle);setScrolled(false);}}
+                                        onClick={() => {
+                                            if(vehicleInfo.error) return NotificationManager.error(displayingVehicle.error);
+                                            setDisplayingVehicle(!displayingVehicle);
+                                            setScrolled(false);
+                                        }}
                                     >
                                         {displayingVehicle ? (vehicle?.type === "bus" ? <DirectionsBus style={{ height: "22px", width: "22px", fill: "#006b47" }} /> : <Tram style={{ height: "22px", width: "22px", fill: "#007bff" }} />) : <AltRoute style={{ height: "22px", width: "22px", fill: vehicle?.type === "bus" ? "#006b47" : "#007bff" }} />}&nbsp;<BrowserView><b>{displayingVehicle ? "Pojazd" : "Trasa"}</b></BrowserView>
                                     </Button>
