@@ -71,7 +71,7 @@ export default function ActiveVehicle({ vehicles }) {
                                     style={{ color: "#000000", borderColor: vehicle?.type === "bus" ? "#006b47" : "#007bff" }}
                                     onClick={() => map.setView(vehicle.location)}
                                 >
-                                    {vehicle?.type === "bus" ? <DirectionsBus style={{ height: "22px", width: "22px", fill: "#006b47" }} /> : <Tram style={{ height: "22px", width: "22px", fill: "#007bff" }} />}&nbsp;<b>{trip?.route_id}</b>&nbsp;<span style={{ maxWidth: "calc(100vw - 100px)", textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap" }}>{trip ? (trip?.stops.filter(st => st.onLine - whereBus(vehicle.location) > -50)[0].stop_sequence === 1 ? <AutoChange timeout={3500} text={[trip?.trip_headsign, new Date(trip?.stops[0]?.departure_time)]} /> : trip?.trip_headsign) : "Ładowanie..."}</span>&nbsp;{trip?.wheelchair_accessible ? <Accessible style={{ height: "22px", width: "22px" }} /> : <NotAccessible style={{ height: "22px", width: "22px" }} />}
+                                    {vehicle?.type === "bus" ? <DirectionsBus style={{ height: "22px", width: "22px", fill: "#006b47" }} /> : <Tram style={{ height: "22px", width: "22px", fill: "#007bff" }} />}&nbsp;<b>{trip?.route_id}</b>&nbsp;<span style={{ maxWidth: "calc(100vw - 220px)", textOverflow: "ellipsis", overflow: "hidden", whiteSpace: "nowrap" }}>{trip ? (trip?.stops.filter(st => st.onLine - whereBus(vehicle.location) > -50)[0].stop_sequence === 1 ? <AutoChange timeout={3500} text={[trip?.trip_headsign, new Date(trip?.stops[0]?.departure_time)]} /> : trip?.trip_headsign) : "Ładowanie..."}</span>&nbsp;{trip?.wheelchair_accessible ? <Accessible style={{ height: "22px", width: "22px" }} /> : <NotAccessible style={{ height: "22px", width: "22px" }} />}
                                 </Button>
                             </div>
                             <div>
@@ -123,11 +123,11 @@ export default function ActiveVehicle({ vehicles }) {
                                                 map.setView(stop.location, 16);
                                                 stop.ref.scrollIntoView({ behavior: 'smooth', block: 'start' })
                                             }}>
-                                                <div style={{ float: "left" }}>
+                                                <div style={{ float: "left", textAlign: "left" }}>
                                                     {stop.on_request ? <PanTool style={{ width: "14px", height: "14px" }} /> : null} {stop.wheelchair_boarding ? null : <NotAccessible style={{ height: "18px", width: "18px", marginBottom: "-2px" }} />} {stop.stop_name}
                                                 </div>
-                                                <div style={{ float: "right" }}>
-                                                    {stop.onLine - whereBus(vehicle.location) > -50 ? (stop.onLine - whereBus(vehicle.location) < 85 ? "serving" : `${Math.floor((stop.onLine - whereBus(vehicle.location)) / 10)} metrów`) : null}
+                                                <div style={{ float: "right", textAlign: "right" }}>
+                                                    {stop.onLine - whereBus(vehicle.location) > -50 ? (stop.onLine - whereBus(vehicle.location) < 85 ? null : `${Math.floor((stop.onLine - whereBus(vehicle.location)) / 10)} metrów`) : null}
                                                 </div>
                                             </ListItemText>
                                         </Button>
