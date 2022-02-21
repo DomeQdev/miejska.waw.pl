@@ -24,7 +24,7 @@ export default function ActiveVehicle({ vehicles }) {
 
     useEffect(() => {
         if (!vehicles.length) return;
-        let v = vehicles.find(vehicle => vehicle.tab === params.bus);
+        let v = vehicles.find(vehicle => vehicle.tab === params.bus && vehicle.type === params.type);
         if (!v) {
             NotificationManager.error(vehicle ? "Utracono połączenie z pojazdem." : "Nie ma tego pojazdu na trasie.");
             return navigate("/");

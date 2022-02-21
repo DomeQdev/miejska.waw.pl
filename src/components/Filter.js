@@ -8,6 +8,7 @@ export default function Main() {
     const [data, setData] = useState({});
     const [carrier, setCarrier] = useState(settings?.carrier || []);
     const [depot, setDepot] = useState(settings?.depot || []);
+    const [vehicle, setVehicle] = useState(settings?.vehicle || []);
 
     useEffect(() => {
         setData({
@@ -19,7 +20,14 @@ export default function Main() {
             {
                 name: "Depot 2",
                 carrier: "Arriva"
-            }]
+            }],
+            models: [
+                {
+                    brand: "Solaris",
+                    model: "Urbino 18 ultra super pro",
+                    used: ["bus1234", "bus2345", "bus3456", "bus4567", "bus5678", "bus6789", "bus7890", "bus8901", "bus9012", "bus0123", "bus1234", "bus2345", "bus3456", "bus4567", "bus5678", "bus6789", "bus7890", "bus8901", "bus9012", "bus0123", "bus1234", "bus2345", "bus3456", "bus4567", "bus5678", "bus6789", "bus7890", "bus8901", "bus9012", "bus0123", "bus1234", "bus2345", "bus3456", "bus4567", "bus5678", "bus6789", "bus7890", "bus8901", "bus9012", "bus0123", "bus1234", "bus2345", "bus3456", "bus4567", "bus5678", "bus6789", "bus7890", "bus8901", "bus9012", "bus0123", "bus1234", "bus2345", "bus3456", "bus4567", "bus5678", "bus6789", "bus7890", "bus8901", "bus9012", "bus0123", "bus1234", "bus2345", "bus3456", "bus4567", "bus5678", "bus6789", "bus7890", "bus8901", "bus9012", "bus0123", "bus1234", "bus2345", "bus3456", "bus4567", "bus5678", "bus6789", "bus7890", "bus8901", "bus9012", "bus0123", "bus1234", "bus2345", "bus3456", "bus4567", "bus5678", "bus6789", "bus7890", "bus8901", "bus9012", "bus0123", "bus1234", "bus2345", "bus3456", "bus4567", "bus5678", "bus6789", "bus7890", "bus8901", "bus9012", "bus0123", "bus12"]
+                }
+            ]
         });
     }, [])
 
@@ -45,7 +53,7 @@ export default function Main() {
                             <Select
                                 multiple
                                 value={carrier}
-                                onChange={({ target }) => setCarrier(target.value)}
+                                onChange={({ target }) => {setCarrier(target.value);setDepot(depot.filter(x => target.value.length ? target.value.includes(x.carrier) : true))}}
                                 input={<OutlinedInput label="Przewoźnik" />}
                                 renderValue={(selected) => selected.join(', ')}
                                 MenuProps={{
@@ -86,6 +94,31 @@ export default function Main() {
                                     <MenuItem key={ca.name} value={ca}>
                                         <Checkbox checked={depot.find(x => x.name === ca.name) ? true : false} />
                                         <ListItemText primary={ca.name} />
+                                    </MenuItem>
+                                )) : null}
+                            </Select>
+                        </FormControl>
+                        <FormControl sx={{ m: 1, width: 250 }}>
+                            <InputLabel>Model pojazdu</InputLabel>
+                            <Select
+                                multiple
+                                value={vehicle}
+                                onChange={({ target }) => setVehicle(target.value)}
+                                input={<OutlinedInput label="Model pojazdu" />}
+                                renderValue={(selected) => selected.map(x => `${x.brand} ${x.model}`).join(', ')}
+                                MenuProps={{
+                                    PaperProps: {
+                                        style: {
+                                            maxHeight: 48 * 4.5 + 8,
+                                            width: 250,
+                                        },
+                                    },
+                                }}
+                            >
+                                {data?.models ? data.models.map((ca) => (
+                                    <MenuItem key={`${ca.brand} ${ca.model}`} value={ca}>
+                                        <Checkbox checked={vehicle.find(x => x.model === ca.model && x.brand === ca.brand) ? true : false} />
+                                        <ListItemText primary={`${ca.brand} ${ca.model}`} />
                                     </MenuItem>
                                 )) : null}
                             </Select>
