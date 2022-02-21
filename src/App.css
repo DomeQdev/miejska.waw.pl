@@ -38,12 +38,6 @@ body {
 .line-number{margin:0 auto;display:block;font-size:15px;font-weight:700}
 .vehicle-marker{background-color:#fff;box-shadow:1px 4px 7px #8a8a8a;position:relative;border-radius:15px;display:flex;outline:none;align-items:center;padding:0 6px!important;z-index:1000!important;}
 
-.MuiInput-input{color:white!important;}
-.css-1c2i806-MuiFormLabel-root-MuiInputLabel-root{color:lightgray!important;}
-.css-aqpgxn-MuiFormLabel-root-MuiInputLabel-root{color:lightgray!important;}
-.css-1c2i806-MuiFormLabel-root-MuiInputLabel-root.Mui-focused{color:#1976d2!important;}
-.css-ghsjzk-MuiInputBase-root-MuiInput-root:before{border-bottom:2px solid lightgray!important;}
-
 .vehicle-marker-active{
     background-color: #fff;
     box-shadow:1px 4px 7px #8a8a8a;

@@ -18,8 +18,6 @@ export default function Main() {
                 scroll={'paper'}
                 PaperProps={{
                     style: {
-                        backgroundColor: '#232a2f',
-                        color: "white",
                         width: "100%"
                     },
                 }}
@@ -28,9 +26,9 @@ export default function Main() {
             >
                 <DialogTitle id="scroll-dialog-title">Ustawienia mapy</DialogTitle>
                 <DialogContent dividers={true}>
-                    <DialogContentText id="scroll-dialog-description" tabIndex={-1} style={{ color: "white" }} component={"div"}>
+                    <DialogContentText id="scroll-dialog-description" tabIndex={-1} style={{ color: "black" }} component={"div"}>
                         <FormControl>
-                            <FormLabel id="demo-radio-buttons-group-label" style={{ color: "white" }}>Styl mapy</FormLabel>
+                            <FormLabel id="demo-radio-buttons-group-label">Styl mapy</FormLabel>
                             <RadioGroup
                                 aria-labelledby="demo-radio-buttons-group-label"
                                 defaultValue="female"
@@ -38,13 +36,13 @@ export default function Main() {
                                 value={mapstyle}
                                 onChange={({ target }) => setMapstyle(target.value)}
                             >
-                                <FormControlLabel value="osmdefault" control={<Radio sx={{ '&': { color: 'white' } }} />} label="OSM Default" />
-                                <FormControlLabel value="mapboxbasic" control={<Radio sx={{ '&': { color: 'white' } }} />} label="Mapbox Basic" />
-                                <FormControlLabel value="mapboxmonochrame" control={<Radio sx={{ '&': { color: 'white' } }} />} label="Mapbox Monochrame" />
-                                <FormControlLabel value="mapboxstreets" control={<Radio sx={{ '&': { color: 'white' } }} />} label="Mapbox Streets" />
-                                <FormControlLabel value="mapboxsatellite" control={<Radio sx={{ '&': { color: 'white' } }} />} label="Mapbox Satellite" />
-                                <FormControlLabel value="mapboxnavigation" control={<Radio sx={{ '&': { color: 'white' } }} />} label="Mapbox Navigation" />
-                                <FormControlLabel value="custom" control={<Radio sx={{ '&': { color: 'white' } }} />} label="Własna mapa (zaawansowane)" />
+                                <FormControlLabel value="osmdefault" control={<Radio />} label="OSM Default" />
+                                <FormControlLabel value="mapboxbasic" control={<Radio />} label="Mapbox Basic" />
+                                <FormControlLabel value="mapboxmonochrame" control={<Radio />} label="Mapbox Monochrame" />
+                                <FormControlLabel value="mapboxstreets" control={<Radio />} label="Mapbox Streets" />
+                                <FormControlLabel value="mapboxsatellite" control={<Radio />} label="Mapbox Satellite" />
+                                <FormControlLabel value="mapboxnavigation" control={<Radio />} label="Mapbox Navigation" />
+                                <FormControlLabel value="custom" control={<Radio />} label="Własna mapa (zaawansowane)" />
                                 {mapstyle === "custom" ? <><TextField
                                     autoFocus
                                     margin="dense"
@@ -53,22 +51,18 @@ export default function Main() {
                                     type="url"
                                     fullWidth
                                     variant="standard"
-                                    sx={{ color: 'white' }}
                                     value={customMapStyle}
                                     onChange={({ target }) => setcustomMapStyle(target.value)}
                                 /><b>Jest to funkcja przeznaczona dla osób, które hostują własne mapy!</b><p>Link powinien zawierać {`{x}, {y} i {z}`} aby wszystko poprawnie działało. Link nie jest sprawdzany pod względem poprawności.</p></> : null}
                             </RadioGroup>
                         </FormControl>
-                        <p style={{ height: "20px" }} />
                         <FormControl>
-                            <FormLabel id="demo-radio-buttons-group-label" style={{ color: "white" }}>Długość okna z trasą pojazdu</FormLabel>
                             <TextField
                                 margin="dense"
-                                label="Długość w pikselach"
+                                label="Długość okna z trasą pojazdu"
                                 type="number"
                                 fullWidth
                                 variant="standard"
-                                sx={{ color: 'white' }}
                                 value={height}
                                 onChange={({ target }) => setHeight(Number(target.value))}
                             />
