@@ -8,13 +8,13 @@ import { nearestPointOnLine, lineString, point } from '@turf/turf';
 export default function VehicleMarker({ vehicle, active, trip }) {
     const navigate = useNavigate();
 
-    if (active && trip && distance(vehicle.location)?.properties?.dist < 30) {
-        const { geometry } = distance(vehicle.location);
+    if (active && trip) {
+        const { geometry, properties } = distance(vehicle.location);
         return (
             <>
                 <Marker
                     key={vehicle.trip}
-                    position={geometry.coordinates}
+                    position={properties?.dist < 30 ? geometry.coordinates : vehicle.location}
                     vehicle={vehicle}
                     icon={divIcon({
                         className: '',
