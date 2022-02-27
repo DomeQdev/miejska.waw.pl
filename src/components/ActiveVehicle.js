@@ -84,7 +84,7 @@ export default function ActiveVehicle({ vehicles }) {
                                     style={{ color: "#000000", borderColor: vehicle?.type === "bus" ? "#006b47" : "#007bff" }}
                                     title={!displayingVehicle ? "Wyświetl informacje o pojeździe" : "Wyświetl trasę"}
                                     onClick={() => {
-                                        if (vehicleInfo.error) return NotificationManager.error(displayingVehicle.error);
+                                        if (vehicleInfo.error) return NotificationManager.info("Przejazd techniczny, brak informacji o pojeździe.");
                                         setDisplayingVehicle(!displayingVehicle);
                                         setScrolled(false);
                                     }}
