@@ -26,7 +26,11 @@ export default function ActiveVehicle({ vehicles }) {
         if (!vehicles.length) return;
         let v = vehicles.find(vehicle => vehicle.tab === params.bus && vehicle.type === params.type);
         if (!v) {
-            NotificationManager.error(vehicle ? "Utracono połączenie z pojazdem." : "Nie ma tego pojazdu na trasie.");
+            if(vehicle.tab === "egg") {
+                NotificationManager.success("Kiedyś™")
+            } else {
+                NotificationManager.error(vehicle ? "Utracono połączenie z pojazdem." : "Nie ma tego pojazdu na trasie.");
+            }
             return navigate("/");
         }
         setVehicle(v);
