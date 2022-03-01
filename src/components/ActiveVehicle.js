@@ -25,6 +25,10 @@ export default function ActiveVehicle({ vehicles }) {
     useEffect(() => {
         if (!vehicles.length) return;
         let v = vehicles.find(vehicle => vehicle.tab === params.bus && vehicle.type === params.type);
+        if(params.bus === "egg") {
+            navigate("/");
+            return NotificationManager.success("Za parę miesięcy, będzie tu tramwaj.");
+        }
         if (!v) {
             NotificationManager.error(vehicle ? "Utracono połączenie z pojazdem." : "Nie ma tego pojazdu na trasie.");
             return navigate("/");
@@ -80,7 +84,7 @@ export default function ActiveVehicle({ vehicles }) {
                                     style={{ color: "#000000", borderColor: vehicle?.type === "bus" ? "#006b47" : "#007bff" }}
                                     title={!displayingVehicle ? "Wyświetl informacje o pojeździe" : "Wyświetl trasę"}
                                     onClick={() => {
-                                        if (vehicleInfo.error) return NotificationManager.error(displayingVehicle.error);
+                                        if (vehicleInfo.error) return NotificationManager.info("Przejazd techniczny, brak informacji o pojeździe.");
                                         setDisplayingVehicle(!displayingVehicle);
                                         setScrolled(false);
                                     }}
