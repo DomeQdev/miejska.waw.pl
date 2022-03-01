@@ -2,13 +2,14 @@ import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, B
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
-export default function Main() {
+export default function Main({ vehicles }) {
     const navigate = useNavigate();
     const settings = localStorage.getItem("filter") ? JSON.parse(localStorage.getItem("filter")) : {};
     const [data, setData] = useState({});
     const [carrier, setCarrier] = useState(settings?.carrier || []);
     const [depot, setDepot] = useState(settings?.depot || []);
     const [vehicle, setVehicle] = useState(settings?.vehicle || []);
+    const [line, setLine] = useState(settings?.line || []);
 
     useEffect(() => {
         setData({
@@ -48,7 +49,7 @@ export default function Main() {
                 <DialogTitle id="scroll-dialog-title">Filtrowanie pojazdów (nie filtruje, prototyp)</DialogTitle>
                 <DialogContent dividers={true}>
                     <DialogContentText id="scroll-dialog-description" tabIndex={-1} component={"div"} sx={{ color: "black" }}>
-                        <FormControl sx={{ m: 1, width: 250 }}>
+                        {/*<FormControl sx={{ m: 1, width: 250 }}>
                             <InputLabel>Przewoźnik</InputLabel>
                             <Select
                                 multiple
@@ -123,18 +124,36 @@ export default function Main() {
                                 )) : null}
                             </Select>
                         </FormControl>
+                        <FormControl sx={{ m: 1, width: 250 }}>
+                            <InputLabel>Linia</InputLabel>
+                            <Select
+                                multiple
+                                value={line}
+                                onChange={({ target }) => setLine(target.value)}
+                                input={<OutlinedInput label="Linia" />}
+                                renderValue={(selected) => selected.join(', ')}
+                                MenuProps={{
+                                    PaperProps: {
+                                        style: {
+                                            maxHeight: 48 * 4.5 + 8,
+                                            width: 250,
+                                        },
+                                    },
+                                }}
+                            >
+                                {data?.models ? data.models.map((ca) => (
+                                    <MenuItem key={`${ca.brand} ${ca.model}`} value={ca}>
+                                        <Checkbox checked={vehicle.find(x => x.model === ca.model && x.brand === ca.brand) ? true : false} />
+                                        <ListItemText primary={`${ca.brand} ${ca.model}`} />
+                                    </MenuItem>
+                                )) : null}
+                            </Select>
+                                </FormControl>*/}
+                                <b>Funkcja niedostępna, poczekaj do 10 dni =)</b>
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={() => navigate("/")}>Anuluj</Button>
-                    <Button onClick={() => {
-                        localStorage.setItem("filter", JSON.stringify({
-                            carrier,
-                            depot: depot.filter(x => carrier.length ? carrier.includes(x.carrier) : true)
-                        }));
-                        navigate("/");
-                        window.location.reload();
-                    }}>Zapisz</Button>
                 </DialogActions>
             </Dialog>
         </div>
