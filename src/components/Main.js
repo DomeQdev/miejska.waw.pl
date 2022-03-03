@@ -10,7 +10,6 @@ export default function Main() {
         if (connected) return;
         let wss = new WebSocket('wss://ws.domeqalt.repl.co');
         setConnected(true);
-        fetch('https://ws.domeqalt.repl.co').then(res => res.json()).then(res => setVehicles(res));
 
         wss.addEventListener("open", () => { NotificationManager.info('aby zobaczyć pojazdy.', 'Przybliż mapę'); setConnected(true); });
         wss.addEventListener("close", () => {
