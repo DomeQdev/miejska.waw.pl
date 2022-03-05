@@ -18,6 +18,8 @@ export default function Main() {
         });
         wss.addEventListener("message", ({ data }) => setVehicles(JSON.parse(data)));
     }, [connected]);
+    
+    useEffect(() => NotificationManager.info('Załadowanie pojazdów może potrwać trochę dłużej. Przepraszamy.'), [])
 
     return (
         <>
