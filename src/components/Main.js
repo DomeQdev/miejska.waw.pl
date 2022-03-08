@@ -19,7 +19,9 @@ export default function Main() {
         wss.addEventListener("message", ({ data }) => setVehicles(JSON.parse(data)));
     }, [connected]);
     
-    useEffect(() => NotificationManager.info('Załadowanie pojazdów może potrwać trochę dłużej. Przepraszamy.'), [])
+    useEffect(() => NotificationManager.warning('Zalecamy używanie wersji beta.', 'Wersja beta dostępna!', 7500, () => {
+            window.location.href = "https://beta.freewifi.waw.pl/"
+          });, [])
 
     return (
         <>
