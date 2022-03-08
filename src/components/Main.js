@@ -21,7 +21,7 @@ export default function Main() {
     
     useEffect(() => NotificationManager.warning('Zalecamy używanie wersji beta.', 'Wersja beta dostępna!', 7500, () => {
             window.location.href = "https://beta.freewifi.waw.pl/"
-          });, [])
+          }), [])
 
     return (
         <>
